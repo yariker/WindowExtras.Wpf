@@ -4,13 +4,22 @@ using System.Windows;
 
 namespace WindowExtras.Wpf;
 
+/// <summary>
+/// Provides attached properties for a <see cref="Window"/>.
+/// </summary>
 public static class WindowEx
 {
     #region WindowShadow
 
+    /// <summary>
+    /// Identifies the WindowShadow dependency property.
+    /// </summary>
     public static readonly DependencyProperty WindowShadowProperty = DependencyProperty.RegisterAttached(
         "WindowShadow", typeof(WindowShadow), typeof(WindowShadow), new PropertyMetadata(OnWindowShadowChanged));
 
+    /// <summary>
+    /// Gets the value of the WindowShadow attached property from the specified <see cref="Window"/>.
+    /// </summary>
     public static void SetWindowShadow(DependencyObject window, WindowShadow value)
     {
         if (window == null)
@@ -21,6 +30,9 @@ public static class WindowEx
         window.SetValue(WindowShadowProperty, value);
     }
 
+    /// <summary>
+    /// Sets the value of the WindowShadow attached property on the specified <see cref="Window"/>.
+    /// </summary>
     [AttachedPropertyBrowsableForType(typeof(Window))]
     public static WindowShadow GetWindowShadow(DependencyObject window)
     {

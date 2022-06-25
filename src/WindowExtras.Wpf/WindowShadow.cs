@@ -8,13 +8,22 @@ using System.Windows.Media.Effects;
 
 namespace WindowExtras.Wpf;
 
+/// <summary>
+/// Represents an object that describes the customizations to the drop shadow of a <see cref="Window"/>.
+/// </summary>
 public class WindowShadow : Animatable
 {
     #region CornerRadius
 
+    /// <summary>
+    /// Identifies the <see cref="CornerRadius"/> dependency property.
+    /// </summary>
     public static readonly DependencyProperty CornerRadiusProperty =
         Border.CornerRadiusProperty.AddOwner(typeof(WindowShadow));
 
+    /// <summary>
+    /// Gets or sets a value that indicates the amount that the corners of a shadow are rounded.
+    /// </summary>
     [Category("Appearance")]
     public CornerRadius CornerRadius
     {
@@ -26,9 +35,15 @@ public class WindowShadow : Animatable
 
     #region Radius
 
+    /// <summary>
+    /// Identifies the <see cref="Radius"/> dependency property.
+    /// </summary>
     public static readonly DependencyProperty RadiusProperty =
         BlurEffect.RadiusProperty.AddOwner(typeof(WindowShadow), new PropertyMetadata(20.0, null, OnCoerceRadius));
 
+    /// <summary>
+    /// Gets or sets a value that indicates the radius of the shadow's blur effect.
+    /// </summary>
     [Category("Appearance")]
     public double Radius
     {
@@ -46,9 +61,15 @@ public class WindowShadow : Animatable
 
     #region Opacity
 
+    /// <summary>
+    /// Identifies the <see cref="Opacity"/> dependency property.
+    /// </summary>
     public static readonly DependencyProperty OpacityProperty =
         UIElement.OpacityProperty.AddOwner(typeof(WindowShadow));
 
+    /// <summary>
+    /// Gets or sets the opacity of the drop shadow.
+    /// </summary>
     [Category("Appearance")]
     public double Opacity
     {
@@ -60,9 +81,15 @@ public class WindowShadow : Animatable
 
     #region OffsetX
 
+    /// <summary>
+    /// Identifies the <see cref="OffsetX"/> dependency property.
+    /// </summary>
     public static readonly DependencyProperty OffsetXProperty = DependencyProperty.Register(
-        "OffsetX", typeof(double), typeof(WindowShadow));
+        nameof(OffsetX), typeof(double), typeof(WindowShadow));
 
+    /// <summary>
+    /// Gets or sets the offset of the drop shadow along the x-axis.
+    /// </summary>
     [Category("Appearance")]
     public double OffsetX
     {
@@ -74,9 +101,15 @@ public class WindowShadow : Animatable
 
     #region OffsetY
 
+    /// <summary>
+    /// Identifies the <see cref="OffsetY"/> dependency property.
+    /// </summary>
     public static readonly DependencyProperty OffsetYProperty = DependencyProperty.Register(
-        "OffsetY", typeof(double), typeof(WindowShadow));
+        nameof(OffsetY), typeof(double), typeof(WindowShadow));
 
+    /// <summary>
+    /// Gets or sets the offset of the drop shadow along the y-axis.
+    /// </summary>
     [Category("Appearance")]
     public double OffsetY
     {
@@ -88,9 +121,15 @@ public class WindowShadow : Animatable
 
     #region ShadowBrush
 
+    /// <summary>
+    /// Identifies the <see cref="ShadowBrush"/> dependency property.
+    /// </summary>
     public static readonly DependencyProperty ShadowBrushProperty = DependencyProperty.Register(
-        "ShadowBrush", typeof(Brush), typeof(WindowShadow), new PropertyMetadata(Brushes.Black));
+        nameof(ShadowBrush), typeof(Brush), typeof(WindowShadow), new PropertyMetadata(Brushes.Black));
 
+    /// <summary>
+    /// Gets or sets the <see cref="Brush"/> that defines the color of the drop shadow.
+    /// </summary>
     public Brush ShadowBrush
     {
         get => (Brush)GetValue(ShadowBrushProperty);
@@ -102,8 +141,11 @@ public class WindowShadow : Animatable
     #region BackdropBrush
 
     public static readonly DependencyProperty BackdropBrushProperty = DependencyProperty.Register(
-        "BackdropBrush", typeof(Brush), typeof(WindowShadow));
+        nameof(BackdropBrush), typeof(Brush), typeof(WindowShadow));
 
+    /// <summary>
+    /// Gets or sets the <see cref="Brush"/> that is displayed behind the <see cref="Window"/>.
+    /// </summary>
     public Brush BackdropBrush
     {
         get => (Brush)GetValue(BackdropBrushProperty);
@@ -114,9 +156,15 @@ public class WindowShadow : Animatable
 
     #region RenderingBias
 
+    /// <summary>
+    /// Identifies the <see cref="RenderingBias"/> dependency property.
+    /// </summary>
     public static readonly DependencyProperty RenderingBiasProperty =
         BlurEffect.RenderingBiasProperty.AddOwner(typeof(WindowShadow));
 
+    /// <summary>
+    /// Gets or sets a value that indicates whether the system renders the drop shadow with emphasis on speed or quality.
+    /// </summary>
     public RenderingBias RenderingBias
     {
         get => (RenderingBias)GetValue(RenderingBiasProperty);

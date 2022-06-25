@@ -1,4 +1,5 @@
 ﻿<Window x:Class="WindowExtras.Wpf.ShadowWindow"
+        x:ClassModifier="internal"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:converters="clr-namespace:WindowExtras.Wpf.Converters"
@@ -7,7 +8,6 @@
         Title="ChildWindow"
         d:DesignHeight="200"
         d:DesignWidth="200"
-        x:ClassModifier="internal"
         AllowsTransparency="True"
         Background="Transparent"
         Closed="OnClosed"
@@ -29,13 +29,13 @@
 
         <Grid.Visibility>
             <!--  Hide the shadow when "Show shadow under windows" system setting is off.  -->
-            <Binding Converter="{StaticResource BooleanToVisibilityConverter}"
-                     Path="Tag"
-                     RelativeSource="{RelativeSource Self}" />
+            <Binding Path="Tag"
+                     RelativeSource="{RelativeSource Self}"
+                     Converter="{StaticResource BooleanToVisibilityConverter}" />
         </Grid.Visibility>
 
         <Grid.Margin>
-            <MultiBinding Converter="{StaticResource ShadowMarginConverter}" NotifyOnTargetUpdated="True">
+            <MultiBinding NotifyOnTargetUpdated="True" Converter="{StaticResource ShadowMarginConverter}">
                 <Binding ElementName="Blur" Path="Radius" />
                 <Binding ElementName="Translate" Path="X" />
                 <Binding ElementName="Translate" Path="Y" />

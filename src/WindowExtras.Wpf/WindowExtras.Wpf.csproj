@@ -5,6 +5,24 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <LangVersion>latest</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NeutralLanguage>en-US</NeutralLanguage>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageId>WindowExtras.Wpf</PackageId>
+    <Authors>Yaroslav Bugaria</Authors>
+    <Product>WindowExtras.Wpf</Product>
+    <Description>TBD</Description>
+    <Copyright>(c) Yaroslav Bugaria, $([System.DateTime]::Now.ToString(yyyy))</Copyright>
+    <PackageProjectUrl>https://github.com/yariker/WindowExtras.Wpf</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/yariker/WindowExtras.Wpf.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>wpf</PackageTags>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
 
   <ItemGroup>
