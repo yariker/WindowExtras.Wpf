@@ -11,25 +11,25 @@ public static class WindowEx
     public static readonly DependencyProperty WindowShadowProperty = DependencyProperty.RegisterAttached(
         "WindowShadow", typeof(WindowShadow), typeof(WindowShadow), new PropertyMetadata(OnWindowShadowChanged));
 
-    public static void SetWindowShadow(Window element, WindowShadow value)
+    public static void SetWindowShadow(DependencyObject window, WindowShadow value)
     {
-        if (element == null)
+        if (window == null)
         {
-            throw new ArgumentNullException(nameof(element));
+            throw new ArgumentNullException(nameof(window));
         }
 
-        element.SetValue(WindowShadowProperty, value);
+        window.SetValue(WindowShadowProperty, value);
     }
 
     [AttachedPropertyBrowsableForType(typeof(Window))]
-    public static WindowShadow GetWindowShadow(Window element)
+    public static WindowShadow GetWindowShadow(DependencyObject window)
     {
-        if (element == null)
+        if (window == null)
         {
-            throw new ArgumentNullException(nameof(element));
+            throw new ArgumentNullException(nameof(window));
         }
 
-        return (WindowShadow)element.GetValue(WindowShadowProperty);
+        return (WindowShadow)window.GetValue(WindowShadowProperty);
     }
 
     private static void OnWindowShadowChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)

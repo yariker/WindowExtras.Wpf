@@ -21,7 +21,7 @@
 
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="22"
-                      CornerRadius="{Binding ElementName=CornerRadiusSlider, Path=Value, Converter={StaticResource MultiplicationConverter}, ConverterParameter=2}"
+                      CornerRadius="{Binding ElementName=CornerRadiusSlider, Path=Value, Converter={StaticResource RadiusConverter}}"
                       GlassFrameThickness="0"
                       ResizeBorderThickness="8" />
     </WindowChrome.WindowChrome>
@@ -161,14 +161,6 @@
                     SmallChange="1"
                     Value="0" />
 
-            <TextBlock Grid.Row="5"
-                       Grid.Column="0"
-                       Text="ShadowBrush:" />
-            <xctk:ColorPicker x:Name="ColorPicker"
-                              Grid.Row="5"
-                              Grid.Column="2"
-                              SelectedColor="Black"
-                              UsingAlphaChannel="False" />
             <TextBlock Grid.Row="4"
                        Grid.Column="0"
                        Text="CornerRadius:" />
@@ -179,6 +171,16 @@
                     Maximum="80"
                     SmallChange="1"
                     Value="0" />
+
+            <TextBlock Grid.Row="5"
+                       Grid.Column="0"
+                       Text="ShadowBrush:" />
+            <xctk:ColorPicker x:Name="ColorPicker"
+                              Grid.Row="5"
+                              Grid.Column="2"
+                              AvailableColorsSortingMode="HueSaturationBrightness"
+                              SelectedColor="Black"
+                              UsingAlphaChannel="False" />
 
         </Grid>
 

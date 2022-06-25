@@ -15,7 +15,6 @@ public class WindowShadow : Animatable
     public static readonly DependencyProperty CornerRadiusProperty =
         Border.CornerRadiusProperty.AddOwner(typeof(WindowShadow));
 
-    [Bindable(true)]
     [Category("Appearance")]
     public CornerRadius CornerRadius
     {
@@ -30,7 +29,6 @@ public class WindowShadow : Animatable
     public static readonly DependencyProperty RadiusProperty =
         BlurEffect.RadiusProperty.AddOwner(typeof(WindowShadow), new PropertyMetadata(20.0, null, OnCoerceRadius));
 
-    [Bindable(true)]
     [Category("Appearance")]
     public double Radius
     {
@@ -51,7 +49,6 @@ public class WindowShadow : Animatable
     public static readonly DependencyProperty OpacityProperty =
         UIElement.OpacityProperty.AddOwner(typeof(WindowShadow));
 
-    [Bindable(true)]
     [Category("Appearance")]
     public double Opacity
     {
@@ -66,7 +63,6 @@ public class WindowShadow : Animatable
     public static readonly DependencyProperty OffsetXProperty = DependencyProperty.Register(
         "OffsetX", typeof(double), typeof(WindowShadow));
 
-    [Bindable(true)]
     [Category("Appearance")]
     public double OffsetX
     {
@@ -81,7 +77,6 @@ public class WindowShadow : Animatable
     public static readonly DependencyProperty OffsetYProperty = DependencyProperty.Register(
         "OffsetY", typeof(double), typeof(WindowShadow));
 
-    [Bindable(true)]
     [Category("Appearance")]
     public double OffsetY
     {
@@ -96,7 +91,6 @@ public class WindowShadow : Animatable
     public static readonly DependencyProperty ShadowBrushProperty = DependencyProperty.Register(
         "ShadowBrush", typeof(Brush), typeof(WindowShadow), new PropertyMetadata(Brushes.Black));
 
-    [Bindable(true)]
     public Brush ShadowBrush
     {
         get => (Brush)GetValue(ShadowBrushProperty);
@@ -110,11 +104,23 @@ public class WindowShadow : Animatable
     public static readonly DependencyProperty BackdropBrushProperty = DependencyProperty.Register(
         "BackdropBrush", typeof(Brush), typeof(WindowShadow));
 
-    [Bindable(true)]
     public Brush BackdropBrush
     {
         get => (Brush)GetValue(BackdropBrushProperty);
         set => SetValue(BackdropBrushProperty, value);
+    }
+
+    #endregion
+
+    #region RenderingBias
+
+    public static readonly DependencyProperty RenderingBiasProperty =
+        BlurEffect.RenderingBiasProperty.AddOwner(typeof(WindowShadow));
+
+    public RenderingBias RenderingBias
+    {
+        get => (RenderingBias)GetValue(RenderingBiasProperty);
+        set => SetValue(RenderingBiasProperty, value);
     }
 
     #endregion

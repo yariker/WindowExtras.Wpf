@@ -1,13 +1,12 @@
 ﻿<Application x:Class="WindowExtras.Wpf.Demo.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:demo="clr-namespace:WindowExtras.Wpf.Demo"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
 
         <xctk:ColorToSolidColorBrushConverter x:Key="ColorToBrushConverter" />
-        <demo:MultiplicationConverter x:Key="MultiplicationConverter" />
+        <xctk:RadiusConverter x:Key="RadiusConverter" />
 
         <Style x:Key="CaptionButtonStyle" TargetType="Button">
             <Setter Property="OverridesDefaultStyle" Value="True" />

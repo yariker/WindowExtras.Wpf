@@ -76,66 +76,42 @@ internal partial class ShadowWindow : Window
         BindingOperations.SetBinding(
             Blur,
             BlurEffect.RadiusProperty,
-            new Binding(nameof(WindowShadow.Radius))
-            {
-                Source = shadow,
-            });
+            new Binding(nameof(WindowShadow.Radius)) { Source = shadow });
 
         BindingOperations.SetBinding(
             Translate,
             TranslateTransform.XProperty,
-            new Binding(nameof(WindowShadow.OffsetX))
-            {
-                Source = shadow,
-            });
+            new Binding(nameof(WindowShadow.OffsetX)) { Source = shadow });
 
         BindingOperations.SetBinding(
             Translate,
             TranslateTransform.YProperty,
-            new Binding(nameof(WindowShadow.OffsetY))
-            {
-                Source = shadow,
-            });
+            new Binding(nameof(WindowShadow.OffsetY)) { Source = shadow });
 
         BindingOperations.SetBinding(
             Shadow,
             OpacityProperty,
-            new Binding(nameof(WindowShadow.Opacity))
-            {
-                Source = shadow,
-            });
+            new Binding(nameof(WindowShadow.Opacity)) { Source = shadow });
 
         BindingOperations.SetBinding(
             Shadow,
             Border.BackgroundProperty,
-            new Binding(nameof(WindowShadow.ShadowBrush))
-            {
-                Source = shadow,
-            });
+            new Binding(nameof(WindowShadow.ShadowBrush)) { Source = shadow });
 
         BindingOperations.SetBinding(
             Shadow,
             Border.CornerRadiusProperty,
-            new Binding(nameof(WindowShadow.CornerRadius))
-            {
-                Source = shadow,
-            });
+            new Binding(nameof(WindowShadow.CornerRadius)) { Source = shadow });
 
         BindingOperations.SetBinding(
             Backdrop,
             Border.BackgroundProperty,
-            new Binding(nameof(WindowShadow.BackdropBrush))
-            {
-                Source = shadow,
-            });
+            new Binding(nameof(WindowShadow.BackdropBrush)) { Source = shadow });
 
-        /*BlurEffect.Radius = shadow.Radius;
-        TranslateTransform.X = shadow.OffsetX;
-        TranslateTransform.Y = shadow.OffsetY;
-        Border.Opacity = shadow.Opacity;
-        Border.Background = shadow.ShadowBrush;
-        Border.CornerRadius = shadow.CornerRadius;
-        Backdrop.Background = shadow.BackdropBrush;*/
+        BindingOperations.SetBinding(
+            Blur,
+            BlurEffect.RenderingBiasProperty,
+            new Binding(nameof(WindowShadow.RenderingBias)) { Source = shadow });
     }
 
     internal void Attach(Window window)
