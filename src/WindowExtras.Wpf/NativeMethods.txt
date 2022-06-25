@@ -1,0 +1,6 @@
+﻿SetWindowPos
+GetWindowLong
+SetWindowLong
+WINDOW_EX_STYLE
+WM_WINDOWPOSCHANGING
+WINDOWPOS
