@@ -130,9 +130,9 @@ public class WindowShadow : Animatable
     /// <summary>
     /// Gets or sets the <see cref="Brush"/> that defines the color of the drop shadow.
     /// </summary>
-    public Brush ShadowBrush
+    public Brush? ShadowBrush
     {
-        get => (Brush)GetValue(ShadowBrushProperty);
+        get => (Brush?)GetValue(ShadowBrushProperty);
         set => SetValue(ShadowBrushProperty, value);
     }
 
@@ -140,15 +140,18 @@ public class WindowShadow : Animatable
 
     #region BackdropBrush
 
+    /// <summary>
+    /// Identifies the <see cref="BackdropBrush"/> dependency property.
+    /// </summary>
     public static readonly DependencyProperty BackdropBrushProperty = DependencyProperty.Register(
         nameof(BackdropBrush), typeof(Brush), typeof(WindowShadow));
 
     /// <summary>
     /// Gets or sets the <see cref="Brush"/> that is displayed behind the <see cref="Window"/>.
     /// </summary>
-    public Brush BackdropBrush
+    public Brush? BackdropBrush
     {
-        get => (Brush)GetValue(BackdropBrushProperty);
+        get => (Brush?)GetValue(BackdropBrushProperty);
         set => SetValue(BackdropBrushProperty, value);
     }
 

@@ -21,7 +21,7 @@ internal partial class ShadowWindow : Window
     internal static readonly DependencyProperty ShadowWindowProperty = DependencyProperty.RegisterAttached(
         "ShadowWindow", typeof(ShadowWindow), typeof(ShadowWindow));
 
-    internal static void SetShadowWindow(Window element, ShadowWindow value)
+    internal static void SetShadowWindow(Window element, ShadowWindow? value)
     {
         if (element == null)
         {

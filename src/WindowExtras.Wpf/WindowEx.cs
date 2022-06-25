@@ -20,7 +20,7 @@ public static class WindowEx
     /// <summary>
     /// Gets the value of the WindowShadow attached property from the specified <see cref="Window"/>.
     /// </summary>
-    public static void SetWindowShadow(DependencyObject window, WindowShadow value)
+    public static void SetWindowShadow(DependencyObject window, WindowShadow? value)
     {
         if (window == null)
         {
@@ -34,14 +34,14 @@ public static class WindowEx
     /// Sets the value of the WindowShadow attached property on the specified <see cref="Window"/>.
     /// </summary>
     [AttachedPropertyBrowsableForType(typeof(Window))]
-    public static WindowShadow GetWindowShadow(DependencyObject window)
+    public static WindowShadow? GetWindowShadow(DependencyObject window)
     {
         if (window == null)
         {
             throw new ArgumentNullException(nameof(window));
         }
 
-        return (WindowShadow)window.GetValue(WindowShadowProperty);
+        return (WindowShadow?)window.GetValue(WindowShadowProperty);
     }
 
     private static void OnWindowShadowChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
