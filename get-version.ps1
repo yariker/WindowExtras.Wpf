@@ -7,7 +7,7 @@ if ($LASTEXITCODE -ne 0) {
 
 $Version = $Tag.TrimStart('v')
 
-if ($Tag -match '^([\d.]+)(-.+)?$') {
+if ($Version -match '^([\d.]+)(-.+)?$') {
 
     $Version = [Version]::Parse($Matches[1])
 
