@@ -25,7 +25,7 @@ or even making the window transparent. Here's a minimal example:
 </Window>
 ```
 
-Here are some notable drop shadow features provided by this library:
+Here are some notable features of the drop shadow provided by this library:
 * Does not affect the actual size of the host window
 * Completely customizable (color, amount of blur, opacity, offset, corner radius, etc.)
 * Transparent to mouse clicks (just like any standard window shadow)
