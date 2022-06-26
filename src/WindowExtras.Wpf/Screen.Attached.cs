@@ -56,24 +56,24 @@ public partial record Screen
         element.SetValue(CurrentPropertyKey, screen);
     }
 
-    private static void OnWindowLoaded(object sender, RoutedEventArgs e)
+    private static void OnWindowLoaded(object? sender, RoutedEventArgs e)
     {
-        var window = (Window)sender;
+        var window = (Window)sender!;
         window.LocationChanged += OnWindowLocationChanged;
         window.Unloaded += OnWindowUnloaded;
         Refresh(window, null);
     }
 
-    private static void OnWindowUnloaded(object sender, RoutedEventArgs e)
+    private static void OnWindowUnloaded(object? sender, RoutedEventArgs e)
     {
-        var window = (Window)sender;
+        var window = (Window)sender!;
         window.LocationChanged -= OnWindowLocationChanged;
         window.Unloaded -= OnWindowLocationChanged;
     }
 
-    private static void OnWindowLocationChanged(object sender, EventArgs e)
+    private static void OnWindowLocationChanged(object? sender, EventArgs e)
     {
-        var window = (Window)sender;
+        var window = (Window)sender!;
         var screen = GetCurrent(window);
 
         var windowBounds = new Rect(window.Left, window.Top, window.Width, window.Height);
@@ -88,7 +88,7 @@ public partial record Screen
         }
     }
 
-    private static void OnDisplaySettingsChanged(object sender, EventArgs e)
+    private static void OnDisplaySettingsChanged(object? sender, EventArgs e)
     {
         foreach (Window window in Application.Current.Windows)
         {

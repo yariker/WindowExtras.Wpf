@@ -7,6 +7,7 @@
     <UseWPF>true</UseWPF>
     <LangVersion>latest</LangVersion>
     <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>

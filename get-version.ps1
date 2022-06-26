@@ -5,9 +5,17 @@ if ($LASTEXITCODE -ne 0) {
     $Tag = "v0.0"
 }
 
-$Version = [Version]::Parse($Tag.TrimStart('v'))
-if ($Version.Build -lt 0 -and $env:GITHUB_RUN_NUMBER) {
-    $Version = [Version]::new($Version.Major, [Math]::Max($Version.Minor, 0), $env:GITHUB_RUN_NUMBER)
+$Version = $Tag.TrimStart('v')
+
+if ($Tag -match '^([\d.]+)(-.+)?$') {
+
+    $Version = [Version]::Parse($Matches[1])
+
+    if ($Version.Build -lt 0 -and $env:GITHUB_RUN_NUMBER) {
+        $Version = [Version]::new($Version.Major, [Math]::Max($Version.Minor, 0), $env:GITHUB_RUN_NUMBER)
+    }
+
+    $Version = $Version + $Matches[2]
 }
 
 Write-Output "BUILD_VERSION=$Version" >> $env:GITHUB_ENV
