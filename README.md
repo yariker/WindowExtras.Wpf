@@ -1,7 +1,7 @@
 # WindowExtras for WPF
 
-This .NET library makes very it easy to attach a custom shadow to a standard WPF window without having to override the window template.
-Here's a minimal example:
+This .NET library makes very it easy to attach a custom shadow to the standard WPF window without having to override the window template
+or even making the window transparent. Here's a minimal example:
 
 ```XAML
 <Window x:Class="MainWindow"
