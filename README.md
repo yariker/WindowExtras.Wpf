@@ -1,6 +1,6 @@
 # WindowExtras for WPF
 
-This .NET library makes very it easy to attach a shadow to a standard WPF window without having to override the window template.
+This .NET library makes very it easy to attach a custom shadow to a standard WPF window without having to override the window template.
 Here's a minimal example:
 
 ```XAML
@@ -12,7 +12,8 @@ Here's a minimal example:
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None">
-
+    
+    <!-- Notice the new attached property below. -->
     <winex:WindowShadow.Shadow>
         <winex:WindowShadow OffsetY="15" Opacity="0.3" Radius="30" />
     </winex:WindowShadow.Shadow>
@@ -23,6 +24,13 @@ Here's a minimal example:
 
 </Window>
 ```
+
+Here are some notable drop shadow features provided by this library:
+* Does not affect the actual size of the host window
+* Completely customizable (color, amount of blur, opacity, offset, corner radius, etc.)
+* Transparent to mouse clicks (just like any standard window shadow)
+* Respects the "Show shadows under windows" option in Performance Options in Windows settings
+* Style/ResourceDictionary-friendly and animatable
 
 # Gallery
 
