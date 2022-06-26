@@ -1,4 +1,5 @@
 # WindowExtras for WPF
+<a href="https://www.nuget.org/packages/WindowExtras.Wpf" target="_blank"><img alt="NuGet" src="https://img.shields.io/nuget/v/WindowExtras.Wpf" /></a>
 
 This .NET library makes very it easy to attach a custom shadow to the standard WPF window without having to override the window template
 or even making the window transparent. Here's a minimal example:
