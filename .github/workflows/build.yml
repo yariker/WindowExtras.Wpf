@@ -35,10 +35,13 @@ jobs:
       run: dotnet test --no-build -c Release --verbosity normal
       
     - name: Publish
-      run: dotnet publish --no-build -c Release -f net462 -o publish
-      
+      run: dotnet publish --no-build -c Release -f net462 -o build\demo
+    
+    - name: Pack
+      run: dotnet pack --no-build -c Release -p:Version=$env:BUILD_VERSION -o build
+    
     - name: Archive
       uses: actions/upload-artifact@v3.1.0
       with:
-        path: publish
-        name: Demo
+        path: build
+        name: ${{ format('WindowExtras.Wpf_v{0}', env.BUILD_VERSION) }}
