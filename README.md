@@ -27,7 +27,7 @@ Here's a minimal example:
 # Gallery
 
 <p float='middle'>
-  <img src='doc/Demo1.png' width='33%' />
-  <img src='doc/Demo2.png' width='33%' />
-  <img src='doc/Demo3.png' width='33%' />
+  <img src='doc/Demo1.png' width='32%' />
+  <img src='doc/Demo2.png' width='32%' />
+  <img src='doc/Demo3.png' width='32%' />
 </p>
