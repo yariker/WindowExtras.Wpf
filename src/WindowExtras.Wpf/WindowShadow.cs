@@ -11,7 +11,7 @@ namespace WindowExtras.Wpf;
 /// <summary>
 /// Represents an object that describes the customizations to the drop shadow of a <see cref="Window"/>.
 /// </summary>
-public class WindowShadow : Animatable
+public partial class WindowShadow : Animatable
 {
     #region CornerRadius
 

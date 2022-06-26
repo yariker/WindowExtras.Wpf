@@ -5,6 +5,7 @@ using System.Windows.Data;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
+using WindowExtras.Wpf.Helpers;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
 using static Windows.Win32.PInvoke;
@@ -255,15 +256,15 @@ internal partial class ShadowWindow : Window
             if (move)
             {
                 var point = _hwndTarget.TransformToDevice.Transform(location);
-                _left = point.X.ToInt32();
-                _top = point.Y.ToInt32();
+                _left = DpiHelper.Round(point.X);
+                _top = DpiHelper.Round(point.Y);
             }
 
             if (resize)
             {
                 var point = _hwndTarget.TransformToDevice.Transform(size);
-                _width = point.X.ToInt32();
-                _height = point.Y.ToInt32();
+                _width = DpiHelper.Round(point.X);
+                _height = DpiHelper.Round(point.Y);
             }
 
             SetWindowPos(_hwnd, _ownerHwnd, _left, _top, _width, _height, flags);

@@ -1,6 +1,14 @@
 ﻿SetWindowPos
 GetWindowLong
 SetWindowLong
+MonitorFromPoint
+MonitorFromWindow
+GetMonitorInfo
+GetDC
+ReleaseDC
+GetDeviceCaps
+MONITORINFOF_PRIMARY
+MONITORINFOEXW
 WINDOW_EX_STYLE
 WM_WINDOWPOSCHANGING
 WINDOWPOS

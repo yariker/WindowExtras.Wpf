@@ -11,8 +11,6 @@
         Height="350"
         MinWidth="400"
         MinHeight="350"
-        MaxWidth="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}"
-        MaxHeight="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}"
         Background="{StaticResource WindowBackground}"
         UseLayoutRounding="True"
         WindowStartupLocation="CenterScreen"
@@ -26,7 +24,7 @@
                       ResizeBorderThickness="8" />
     </WindowChrome.WindowChrome>
 
-    <winex:WindowEx.WindowShadow>
+    <winex:WindowShadow.Shadow>
         <winex:WindowShadow x:Name="WindowShadow"
                             CornerRadius="{Binding ElementName=CornerRadiusSlider, Path=Value}"
                             OffsetX="{Binding ElementName=OffsetXSlider, Path=Value}"
@@ -34,7 +32,18 @@
                             Opacity="{Binding ElementName=OpacitySlider, Path=Value}"
                             Radius="{Binding ElementName=RadiusSlider, Path=Value}"
                             ShadowBrush="{Binding ElementName=ColorPicker, Path=SelectedColor, Converter={StaticResource ColorToBrushConverter}}" />
-    </winex:WindowEx.WindowShadow>
+    </winex:WindowShadow.Shadow>
+
+    <Window.Style>
+        <Style TargetType="Window">
+            <Style.Triggers>
+                <Trigger Property="WindowState" Value="Maximized">
+                    <Setter Property="MaxWidth" Value="{Binding RelativeSource={RelativeSource Self}, Path=(winex:Screen.Current).MaximizedWindowSize.Width}" />
+                    <Setter Property="MaxHeight" Value="{Binding RelativeSource={RelativeSource Self}, Path=(winex:Screen.Current).MaximizedWindowSize.Height}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Style>
 
     <b:Interaction.Triggers>
         <b:EventTrigger EventName="MouseLeftButtonDown">
