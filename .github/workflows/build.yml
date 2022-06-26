@@ -60,7 +60,7 @@ jobs:
 
     - name: Publish
       if: ${{ github.event_name == 'Release' }}
-      run: nuget push build/*.nupkg -source https://www.nuget.org -apikey $env:NUGET_API_KEY
+      run: nuget push build\*.nupkg -source https://www.nuget.org -apikey $env:NUGET_API_KEY
       
     - name: Zip Demo App
       uses: vimtor/action-zip@v1
