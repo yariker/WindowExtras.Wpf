@@ -17,8 +17,8 @@ Here's a minimal example:
         <winex:WindowShadow OffsetY="15" Opacity="0.3" Radius="30" />
     </winex:WindowShadow.Shadow>
 
-    <Button Width="100" Height="32" Click="ButtonClicked" Content="Close">
-        <x:Code><![CDATA[void ButtonClicked(object sender, RoutedEventArgs e) => Close();]]></x:Code>
+    <Button Width="100" Height="32" Click="CloseButtonClick" Content="Close">
+        <x:Code><![CDATA[void CloseButtonClick(object sender, EventArgs e) => Close();]]></x:Code>
     </Button>
 
 </Window>
