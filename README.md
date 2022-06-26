@@ -31,3 +31,5 @@ Here's a minimal example:
   <img src='doc/Demo2.png' width='32%' />
   <img src='doc/Demo3.png' width='32%' />
 </p>
+
+Download the [Demo app](https://github.com/yariker/WindowExtras.Wpf/releases) to try it yourself!
