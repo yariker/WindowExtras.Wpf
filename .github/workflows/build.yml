@@ -2,23 +2,31 @@ name: Build
 
 on:
   push:
-    branches:
-      - '**'
-    paths:
-      - '*.sln'
-      - src/**
-      - .github/workflows/build.yml
-    tags-ignore: ['v*']
+    branches: [master]
+    paths-ignore:
+      - '**/*.md'
+  pull_request:
+    branches: [master]
+    paths-ignore:
+      - '**/*.md'
+  release:
+    branches: [master]
+    types: [published]
 
 jobs:
   build:
     runs-on: windows-latest
+  
+    env:
+      NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
     - uses: actions/checkout@v3
-    
+
     - name: Generate Version
-      run: .\get-version.ps1
-      
+      run: ./get-version.ps1
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
 
@@ -27,21 +35,55 @@ jobs:
 
     - name: Restore
       run: dotnet restore
-      
+
     - name: Build
       run: dotnet build --no-restore -c Release -p:Version=$env:BUILD_VERSION
-      
+
     - name: Test
       run: dotnet test --no-build -c Release --verbosity normal
-      
+
     - name: Publish
-      run: dotnet publish --no-build -c Release -f net462 -o build\demo
-    
+      run: dotnet publish --no-build -c Release -f net462 -o build/demo
+
     - name: Pack
       run: dotnet pack --no-build -c Release -p:Version=$env:BUILD_VERSION -o build
-    
+
     - name: Archive
       uses: actions/upload-artifact@v3.1.0
       with:
         path: build
         name: ${{ format('WindowExtras.Wpf_v{0}', env.BUILD_VERSION) }}
+
+    - name: Setup NuGet
+      if: ${{ github.event_name == 'Release' }}
+      uses: NuGet/setup-nuget@v1.0.6
+
+    - name: Publish
+      if: ${{ github.event_name == 'Release' }}
+      run: nuget push build/*.nupkg -source https://www.nuget.org -apikey $env:NUGET_API_KEY
+      
+    - name: Zip Demo App
+      uses: vimtor/action-zip@v1
+      if: ${{ github.event_name == 'Release' }}
+      with:
+        files: build/demo/ LICENSE
+        dest: DemoApp.zip
+
+    - name: Attach Demo App
+      uses: svenstaro/upload-release-action@2.2.1
+      if: ${{ github.event_name == 'Release' }}
+      with:
+        repo_token: ${{ env.GITHUB_TOKEN }}
+        tag: ${{ github.ref }}
+        file: DemoApp.zip
+        overwrite: true
+        
+    - name: Attach NuGet Package
+      uses: svenstaro/upload-release-action@2.2.1
+      if: ${{ github.event_name == 'Release' }}
+      with:
+        repo_token: ${{ env.GITHUB_TOKEN }}
+        tag: ${{ github.ref }}
+        file: build/*.nupkg
+        file_glob: true
+        overwrite: true
