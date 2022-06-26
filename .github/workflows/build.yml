@@ -1,0 +1,46 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - '**'
+    paths:
+      - '*.sln'
+      - src/**
+      - .github/workflows/build.yml
+    tags-ignore: ['v*']
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Generate Version
+      run: .\get-version.ps1
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 5.0.x
+        
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.1
+
+    - name: Restore
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build --no-restore -c Release -p:Version=$env:BUILD_VERSION
+      
+    - name: Test
+      run: dotnet test --no-build -c Release --verbosity normal
+      
+    - name: Publish
+      run: dotnet publish --no-build -c Release -f net462 -o publish
+      
+    - name: Archive
+      uses: actions/upload-artifact@v3.1.0
+      with:
+        path: publish
+        name: Demo
