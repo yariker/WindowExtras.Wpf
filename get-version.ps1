@@ -15,7 +15,7 @@ if ($Version -match '^([\d.]+)(-.+)?$') {
         $Version = [Version]::new($Version.Major, [Math]::Max($Version.Minor, 0), $env:GITHUB_RUN_NUMBER)
     }
 
-    $Version = $Version + $Matches[2]
+    $Version = $Version.ToString() + $Matches[2]
 }
 
 Write-Output "BUILD_VERSION=$Version" >> $env:GITHUB_ENV
