@@ -1,0 +1,12 @@
+﻿<Project>
+
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <UseWPF>true</UseWPF>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Authors>Yaroslav Bugaria</Authors>
+    <Copyright>(c) Yaroslav Bugaria, $([System.DateTime]::Now.ToString(yyyy))</Copyright>
+  </PropertyGroup>
+
+</Project>

@@ -14,12 +14,12 @@ namespace WindowExtras.Wpf;
 public partial record Screen
 {
     /// <summary>
-    /// 
+    /// Initializes a new instance of the <see cref="Screen"/> class.
     /// </summary>
-    /// <param name="name"></param>
-    /// <param name="bounds"></param>
-    /// <param name="workingArea"></param>
-    /// <param name="isPrimary"></param>
+    /// <param name="name">The device name.</param>
+    /// <param name="bounds">The screen bounds.</param>
+    /// <param name="workingArea">The screen desktop area.</param>
+    /// <param name="isPrimary">Indicates if the screen is primary.</param>
     /// <exception cref="ArgumentNullException"></exception>
     public Screen(string name, Rect bounds, Rect workingArea, bool isPrimary)
     {
@@ -80,7 +80,6 @@ public partial record Screen
             : MonitorFromWindow((HWND)hwnd, MONITOR_FROM_FLAGS.MONITOR_DEFAULTTONEAREST);
 
         var monitorInfo = new MONITORINFOEXW { monitorInfo = { cbSize = (uint)Marshal.SizeOf<MONITORINFOEXW>() } };
-
         GetMonitorInfo(monitor, (MONITORINFO*)&monitorInfo);
 
         var bounds = stackalloc[]

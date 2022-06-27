@@ -2,23 +2,16 @@
 
   <PropertyGroup>
     <TargetFrameworks>net462;net5.0-windows</TargetFrameworks>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-    <LangVersion>latest</LangVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <NeutralLanguage>en-US</NeutralLanguage>
     <IsPublishable>false</IsPublishable>
   </PropertyGroup>
 
   <PropertyGroup>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageId>WindowExtras.Wpf</PackageId>
     <PackageIcon>Icon.png</PackageIcon>
-    <Authors>Yaroslav Bugaria</Authors>
     <Product>WindowExtras.Wpf</Product>
     <Description>Provides a customizable drop shadow that can be attached to any WPF window in XAML.</Description>
-    <Copyright>(c) Yaroslav Bugaria, $([System.DateTime]::Now.ToString(yyyy))</Copyright>
     <PackageProjectUrl>https://github.com/yariker/WindowExtras.Wpf</PackageProjectUrl>
     <RepositoryUrl>https://github.com/yariker/WindowExtras.Wpf.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>

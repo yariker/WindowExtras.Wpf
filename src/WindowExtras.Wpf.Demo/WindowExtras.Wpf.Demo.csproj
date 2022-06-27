@@ -3,9 +3,6 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net462</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-    <LangVersion>latest</LangVersion>
     <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
