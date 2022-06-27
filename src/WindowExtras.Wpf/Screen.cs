@@ -83,21 +83,21 @@ public partial record Screen
 
         GetMonitorInfo(monitor, (MONITORINFO*)&monitorInfo);
 
-        Span<Point> bounds = stackalloc[]
+        var bounds = stackalloc[]
         {
             new Point(monitorInfo.monitorInfo.rcMonitor.left, monitorInfo.monitorInfo.rcMonitor.top),
             new Point(monitorInfo.monitorInfo.rcMonitor.right, monitorInfo.monitorInfo.rcMonitor.bottom),
         };
 
-        Span<Point> workingArea = stackalloc[]
+        var workingArea = stackalloc[]
         {
             new Point(monitorInfo.monitorInfo.rcWork.left, monitorInfo.monitorInfo.rcWork.top),
             new Point(monitorInfo.monitorInfo.rcWork.right, monitorInfo.monitorInfo.rcWork.bottom),
         };
 
         var transform = DpiHelper.GetTransformMatrix(hwnd, TransformDirection.FromDevice);
-        transform.Transform(bounds);
-        transform.Transform(workingArea);
+        transform.Transform(bounds, 2);
+        transform.Transform(workingArea, 2);
 
         var isPrimary = (monitorInfo.monitorInfo.dwFlags & MONITORINFOF_PRIMARY) == MONITORINFOF_PRIMARY;
 

@@ -14,9 +14,10 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageId>WindowExtras.Wpf</PackageId>
+    <PackageIcon>Icon.png</PackageIcon>
     <Authors>Yaroslav Bugaria</Authors>
     <Product>WindowExtras.Wpf</Product>
-    <Description>TBD</Description>
+    <Description>Provides a customizable drop shadow that can be attached to any WPF window in XAML.</Description>
     <Copyright>(c) Yaroslav Bugaria, $([System.DateTime]::Now.ToString(yyyy))</Copyright>
     <PackageProjectUrl>https://github.com/yariker/WindowExtras.Wpf</PackageProjectUrl>
     <RepositoryUrl>https://github.com/yariker/WindowExtras.Wpf.git</RepositoryUrl>
@@ -28,7 +29,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.2.1-beta">
-      <PrivateAssets>all</PrivateAssets>
+      <PrivateAssets>All</PrivateAssets>
     </PackageReference>
   </ItemGroup>
 
