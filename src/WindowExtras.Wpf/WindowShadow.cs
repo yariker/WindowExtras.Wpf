@@ -44,6 +44,9 @@ public partial class WindowShadow : Animatable
     /// <summary>
     /// Gets or sets a value that indicates the radius of the shadow's blur effect.
     /// </summary>
+    /// <value>
+    /// The radius of the shadow's blur curve. The default is <c>20.0</c>.
+    /// </value>
     [Category("Appearance")]
     public double Radius
     {
@@ -70,6 +73,9 @@ public partial class WindowShadow : Animatable
     /// <summary>
     /// Gets or sets the opacity of the drop shadow.
     /// </summary>
+    /// <value>
+    /// The opacity factor. The default value is <c>1.0</c>.
+    /// </value>
     [Category("Appearance")]
     public double Opacity
     {
@@ -130,6 +136,9 @@ public partial class WindowShadow : Animatable
     /// <summary>
     /// Gets or sets the <see cref="Brush"/> that defines the color of the drop shadow.
     /// </summary>
+    /// <value>
+    /// A <see cref="Brush"/> that defines the color of the drop shadow. The default is value <see cref="Brushes.Black"/>.
+    /// </value>
     public Brush? ShadowBrush
     {
         get => (Brush?)GetValue(ShadowBrushProperty);
@@ -147,8 +156,12 @@ public partial class WindowShadow : Animatable
         nameof(BackdropBrush), typeof(Brush), typeof(WindowShadow));
 
     /// <summary>
-    /// Gets or sets the <see cref="Brush"/> that is displayed behind the <see cref="Window"/>.
+    /// Gets or sets the <see cref="Brush"/> to render on top of the drop shadow, behind the host <see cref="Window"/>.
     /// </summary>
+    /// <value>
+    /// A <see cref="Brush"/> instance to render on top of the drop shadow, behind the host <see cref="Window"/>.
+    /// The default is value <c>null</c> (no brush).
+    /// </value>
     public Brush? BackdropBrush
     {
         get => (Brush?)GetValue(BackdropBrushProperty);
@@ -163,11 +176,15 @@ public partial class WindowShadow : Animatable
     /// Identifies the <see cref="RenderingBias"/> dependency property.
     /// </summary>
     public static readonly DependencyProperty RenderingBiasProperty =
-        BlurEffect.RenderingBiasProperty.AddOwner(typeof(WindowShadow));
+        BlurEffect.RenderingBiasProperty.AddOwner(typeof(WindowShadow), new PropertyMetadata(RenderingBias.Quality));
 
     /// <summary>
     /// Gets or sets a value that indicates whether the system renders the drop shadow with emphasis on speed or quality.
     /// </summary>
+    /// <value>
+    /// A <see cref="RenderingBias"/> value that indicates the rendering quality.
+    /// The default is <see cref="System.Windows.Media.Effects.RenderingBias.Quality"/>.
+    /// </value>
     public RenderingBias RenderingBias
     {
         get => (RenderingBias)GetValue(RenderingBiasProperty);

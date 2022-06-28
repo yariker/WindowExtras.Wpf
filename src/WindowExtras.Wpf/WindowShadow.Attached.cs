@@ -7,7 +7,7 @@ namespace WindowExtras.Wpf;
 public partial class WindowShadow
 {
     /// <summary>
-    /// Identifies the WindowShadow dependency property.
+    /// Identifies the WindowShadow attached property.
     /// </summary>
     public static readonly DependencyProperty ShadowProperty = DependencyProperty.RegisterAttached(
         "Shadow", typeof(WindowShadow), typeof(WindowShadow), new PropertyMetadata(OnShadowChanged));
@@ -15,6 +15,9 @@ public partial class WindowShadow
     /// <summary>
     /// Gets the value of the <see cref="ShadowProperty"/> from the specified <see cref="Window"/>.
     /// </summary>
+    /// <returns>
+    /// The instance of <see cref="WindowShadow"/> that is attached to the specified <see cref="Window"/>.
+    /// </returns>
     [AttachedPropertyBrowsableForType(typeof(Window))]
     public static WindowShadow? GetShadow(DependencyObject window)
     {

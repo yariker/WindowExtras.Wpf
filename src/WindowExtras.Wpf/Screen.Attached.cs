@@ -12,7 +12,7 @@ public partial record Screen
         "Current", typeof(Screen), typeof(Screen), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.Inherits));
 
     /// <summary>
-    /// Identifies the Current dependency property.
+    /// Identifies the Current attached property.
     /// </summary>
     private static readonly DependencyProperty CurrentProperty = CurrentPropertyKey.DependencyProperty;
 
@@ -35,6 +35,9 @@ public partial record Screen
     /// <summary>
     /// Gets the value of the Current attached property from the specified element.
     /// </summary>
+    /// <returns>
+    /// A <see cref="Screen"/> instance that represents the display on which the specified element is displayed.
+    /// </returns>
     [AttachedPropertyBrowsableForType(typeof(Window))]
     public static Screen GetCurrent(DependencyObject element)
     {

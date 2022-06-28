@@ -53,7 +53,9 @@
             </Border.Effect>
         </Border>
 
-        <Border x:Name="Backdrop" CornerRadius="{Binding ElementName=Shadow, Path=CornerRadius}" />
+        <Border x:Name="Backdrop"
+                CacheMode="BitmapCache"
+                CornerRadius="{Binding ElementName=Shadow, Path=CornerRadius}" />
 
     </Grid>
 </Window>

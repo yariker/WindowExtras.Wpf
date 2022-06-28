@@ -11,11 +11,17 @@
         Height="350"
         MinWidth="400"
         MinHeight="350"
-        Background="{StaticResource WindowBackground}"
         UseLayoutRounding="True"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         mc:Ignorable="d">
+
+    <Window.Background>
+        <RadialGradientBrush>
+            <GradientStop Offset="1" Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
+            <GradientStop Offset="0" Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}" />
+        </RadialGradientBrush>
+    </Window.Background>
 
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="22"
@@ -96,6 +102,7 @@
             <Grid.Resources>
                 <Style TargetType="TextBlock">
                     <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="FontWeight" Value="SemiBold" />
                 </Style>
                 <Style TargetType="Slider">
                     <Setter Property="VerticalAlignment" Value="Center" />
@@ -107,7 +114,7 @@
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="20" />
                 <ColumnDefinition Width="200" />
             </Grid.ColumnDefinitions>
 
