@@ -16,4 +16,8 @@
     <ProjectReference Include="..\WindowExtras.Wpf\WindowExtras.Wpf.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+
 </Project>

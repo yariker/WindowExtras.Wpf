@@ -1,204 +1,56 @@
 ﻿<Window x:Class="WindowExtras.Wpf.Demo.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:f="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:winex="https://github.com/yariker/WindowExtras.Wpf"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        Title="WindowShadow Demo"
-        Width="600"
-        Height="350"
-        MinWidth="400"
-        MinHeight="350"
-        UseLayoutRounding="True"
+        Title="WindowExtras for WPF"
+        Width="500"
+        Height="389"
+        ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="None"
         mc:Ignorable="d">
 
-    <Window.Background>
-        <RadialGradientBrush>
-            <GradientStop Offset="1" Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
-            <GradientStop Offset="0" Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}" />
-        </RadialGradientBrush>
-    </Window.Background>
+    <winex:SystemMenu.Menu>
+        <winex:SystemMenu x:Name="SystemMenu" MaximizeBox="False" />
+    </winex:SystemMenu.Menu>
 
-    <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="22"
-                      CornerRadius="{Binding ElementName=CornerRadiusSlider, Path=Value, Converter={StaticResource RadiusConverter}}"
-                      GlassFrameThickness="0"
-                      ResizeBorderThickness="8" />
-    </WindowChrome.WindowChrome>
+    <DockPanel Margin="12">
 
-    <winex:WindowShadow.Shadow>
-        <winex:WindowShadow x:Name="WindowShadow"
-                            CornerRadius="{Binding ElementName=CornerRadiusSlider, Path=Value}"
-                            OffsetX="{Binding ElementName=OffsetXSlider, Path=Value}"
-                            OffsetY="{Binding ElementName=OffsetYSlider, Path=Value}"
-                            Opacity="{Binding ElementName=OpacitySlider, Path=Value}"
-                            Radius="{Binding ElementName=RadiusSlider, Path=Value}"
-                            ShadowBrush="{Binding ElementName=ColorPicker, Path=SelectedColor, Converter={StaticResource ColorToBrushConverter}}" />
-    </winex:WindowShadow.Shadow>
+        <Image DockPanel.Dock="Top"
+               Width="64"
+               Height="64"
+               Source="{StaticResource MainIcon}">
+            <Image.Effect>
+                <DropShadowEffect BlurRadius="25"
+                                  Direction="270"
+                                  Opacity="0.4"
+                                  RenderingBias="Quality"
+                                  ShadowDepth="10" />
+            </Image.Effect>
+        </Image>
 
-    <Window.Style>
-        <Style TargetType="Window">
-            <Style.Triggers>
-                <Trigger Property="WindowState" Value="Maximized">
-                    <Setter Property="MaxWidth" Value="{Binding RelativeSource={RelativeSource Self}, Path=(winex:Screen.Current).MaximizedWindowSize.Width}" />
-                    <Setter Property="MaxHeight" Value="{Binding RelativeSource={RelativeSource Self}, Path=(winex:Screen.Current).MaximizedWindowSize.Height}" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </Window.Style>
+        <TextBlock DockPanel.Dock="Bottom"
+                   HorizontalAlignment="Right"
+                   Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
+                   Text="{Binding StringFormat='v{0}', Source={x:Static f:Application.ProductVersion}}" />
 
-    <b:Interaction.Triggers>
-        <b:EventTrigger EventName="MouseLeftButtonDown">
-            <b:CallMethodAction MethodName="DragMove" />
-        </b:EventTrigger>
-    </b:Interaction.Triggers>
+        <xctk:PropertyGrid DockPanel.Dock="Bottom"
+                           Height="200"
+                           HideInheritedProperties="True"
+                           SelectedObject="{Binding ElementName=SystemMenu}"
+                           ShowSearchBox="False"
+                           ShowSortOptions="False"
+                           ShowSummary="False" />
 
-    <DockPanel Style="{StaticResource RootPanelStyle}">
-
-        <Button DockPanel.Dock="Top"
-                HorizontalAlignment="Center"
-                Style="{StaticResource CaptionButtonStyle}"
-                ToolTip="Close"
-                WindowChrome.IsHitTestVisibleInChrome="True">
-            <Path Data="{StaticResource CloseIcon}"
-                  Fill="Black"
-                  Stretch="Fill" />
-            <b:Interaction.Triggers>
-                <b:EventTrigger EventName="Click">
-                    <b:CallMethodAction MethodName="Close" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
-                </b:EventTrigger>
-            </b:Interaction.Triggers>
-        </Button>
-
-        <Expander DockPanel.Dock="Bottom"
-                  MaxWidth="800"
-                  Margin="30,0,30,30"
-                  Header="Show XAML">
-            <RichTextBox Margin="0,10,0,0"
-                         Padding="15"
-                         BorderThickness="0"
-                         IsReadOnly="True">
-                <FlowDocument>
-                    <Paragraph FontFamily="Consolas, Courier New">
-                        <Run Foreground="Blue" Text="&lt;" /><Run Foreground="#A31515" Text="winex:WindowShadow" />
-                        <Run Foreground="Red" Text="CornerRadius" /><Run Foreground="Blue" Text="{Binding StringFormat='=&quot;{0:0}&quot;', ElementName=WindowShadow, Path=CornerRadius.TopLeft}" />
-                        <Run Foreground="Red" Text="OffsetX" /><Run Foreground="Blue" Text="{Binding StringFormat='=&quot;{0:0}&quot;', ElementName=WindowShadow, Path=OffsetX}" />
-                        <Run Foreground="Red" Text="OffsetY" /><Run Foreground="Blue" Text="{Binding StringFormat='=&quot;{0:0}&quot;', ElementName=WindowShadow, Path=OffsetY}" />
-                        <Run Foreground="Red" Text="Opacity" /><Run Foreground="Blue" Text="{Binding StringFormat='=&quot;{0:0.##}&quot;', ElementName=WindowShadow, Path=Opacity}" />
-                        <Run Foreground="Red" Text="Radius" /><Run Foreground="Blue" Text="{Binding StringFormat='=&quot;{0:0.#}&quot;', ElementName=WindowShadow, Path=Radius}" />
-                        <Run Foreground="Red" Text="ShadowBrush" /><Run Foreground="Blue" Text="{Binding StringFormat='=&quot;{0}&quot;', ElementName=WindowShadow, Path=ShadowBrush}" />
-                        <Run Foreground="Blue" Text="/&gt;" />
-                    </Paragraph>
-                </FlowDocument>
-            </RichTextBox>
-        </Expander>
-
-        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-
-            <Grid.Resources>
-                <Style TargetType="TextBlock">
-                    <Setter Property="VerticalAlignment" Value="Center" />
-                    <Setter Property="FontWeight" Value="SemiBold" />
-                </Style>
-                <Style TargetType="Slider">
-                    <Setter Property="VerticalAlignment" Value="Center" />
-                </Style>
-                <Style TargetType="xctk:ColorPicker">
-                    <Setter Property="VerticalAlignment" Value="Center" />
-                </Style>
-            </Grid.Resources>
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="20" />
-                <ColumnDefinition Width="200" />
-            </Grid.ColumnDefinitions>
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30" />
-                <RowDefinition Height="30" />
-                <RowDefinition Height="30" />
-                <RowDefinition Height="30" />
-                <RowDefinition Height="30" />
-                <RowDefinition Height="30" />
-            </Grid.RowDefinitions>
-
-            <TextBlock Grid.Column="0"
-                       Grid.Row="0"
-                       Text="Radius:" />
-            <Slider x:Name="RadiusSlider"
-                    Grid.Column="2"
-                    Grid.Row="0"
-                    AutoToolTipPlacement="TopLeft"
-                    AutoToolTipPrecision="1"
-                    IsSnapToTickEnabled="True"
-                    Maximum="100"
-                    SmallChange="0.5"
-                    TickFrequency="0.5"
-                    Value="20" />
-
-            <TextBlock Grid.Column="0"
-                       Grid.Row="1"
-                       Text="Opacity:" />
-            <Slider x:Name="OpacitySlider"
-                    Grid.Column="2"
-                    Grid.Row="1"
-                    AutoToolTipPlacement="TopLeft"
-                    AutoToolTipPrecision="2"
-                    Maximum="1"
-                    SmallChange="0.01"
-                    Value="1" />
-
-            <TextBlock Grid.Column="0"
-                       Grid.Row="2"
-                       Text="OffsetX:" />
-            <Slider x:Name="OffsetXSlider"
-                    Grid.Column="2"
-                    Grid.Row="2"
-                    AutoToolTipPlacement="TopLeft"
-                    Maximum="100"
-                    Minimum="-100"
-                    SmallChange="1"
-                    Value="0" />
-
-            <TextBlock Grid.Column="0"
-                       Grid.Row="3"
-                       Text="OffsetY:" />
-            <Slider x:Name="OffsetYSlider"
-                    Grid.Column="2"
-                    Grid.Row="3"
-                    AutoToolTipPlacement="TopLeft"
-                    Maximum="100"
-                    Minimum="-100"
-                    SmallChange="1"
-                    Value="0" />
-
-            <TextBlock Grid.Column="0"
-                       Grid.Row="4"
-                       Text="CornerRadius:" />
-            <Slider x:Name="CornerRadiusSlider"
-                    Grid.Column="2"
-                    Grid.Row="4"
-                    AutoToolTipPlacement="TopLeft"
-                    Maximum="80"
-                    SmallChange="1"
-                    Value="0" />
-
-            <TextBlock Grid.Column="0"
-                       Grid.Row="5"
-                       Text="ShadowBrush:" />
-            <xctk:ColorPicker x:Name="ColorPicker"
-                              Grid.Column="2"
-                              Grid.Row="5"
-                              AvailableColorsSortingMode="HueSaturationBrightness"
-                              SelectedColor="Black"
-                              UsingAlphaChannel="False" />
-
-        </Grid>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock>
+                <Hyperlink NavigateUri="#" RequestNavigate="OnShadowDemoClick">Shadow Demo</Hyperlink>
+            </TextBlock>
+        </StackPanel>
 
     </DockPanel>
+
 </Window>
