@@ -9,6 +9,7 @@ namespace WindowExtras.Wpf.Demo
     public partial class MainWindow : Window
     {
         private ShadowDemo? _shadowDemo;
+        private SystemMenuDemo? _systemMenuDemo;
 
         public MainWindow()
         {
@@ -18,6 +19,11 @@ namespace WindowExtras.Wpf.Demo
         private void OnShadowDemoClick(object sender, RequestNavigateEventArgs e)
         {
             CreateOrActivate(ref _shadowDemo);
+        }
+
+        private void OnSystemMenuDemoClick(object sender, RequestNavigateEventArgs e)
+        {
+            CreateOrActivate(ref _systemMenuDemo);
         }
 
         private static void CreateOrActivate<T>(ref T? window) where T: Window, new()

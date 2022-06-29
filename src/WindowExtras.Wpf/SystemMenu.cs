@@ -3,6 +3,9 @@ using System.Windows.Media.Animation;
 
 namespace WindowExtras.Wpf;
 
+/// <summary>
+/// Represents the system menu of a <see cref="Window"/>.
+/// </summary>
 public partial class SystemMenu : Animatable
 {
     public static readonly DependencyProperty MinimizeBoxProperty = DependencyProperty.Register(

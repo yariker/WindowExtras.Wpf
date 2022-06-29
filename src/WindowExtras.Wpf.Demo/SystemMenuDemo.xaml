@@ -1,0 +1,27 @@
+﻿<Window x:Class="WindowExtras.Wpf.Demo.SystemMenuDemo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:WindowExtras.Wpf.Demo"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:winex="https://github.com/yariker/WindowExtras.Wpf"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        Title="SystemMenuDemo"
+        Width="350"
+        Height="350"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d">
+
+    <winex:SystemMenu.Menu>
+        <winex:SystemMenu x:Name="SystemMenu" />
+    </winex:SystemMenu.Menu>
+
+    <Grid Margin="16">
+        <xctk:PropertyGrid HideInheritedProperties="True"
+                           SelectedObject="{Binding ElementName=SystemMenu}"
+                           ShowPreview="False"
+                           ShowSearchBox="False"
+                           ShowSortOptions="False" />
+    </Grid>
+
+</Window>

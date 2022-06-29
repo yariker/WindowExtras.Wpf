@@ -5,23 +5,24 @@
         xmlns:f="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:winex="https://github.com/yariker/WindowExtras.Wpf"
-        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         Title="WindowExtras for WPF"
-        Width="500"
-        Height="389"
+        Width="450"
+        Height="300"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
 
     <winex:SystemMenu.Menu>
-        <winex:SystemMenu x:Name="SystemMenu" MaximizeBox="False" />
+        <winex:SystemMenu MaximizeBox="False"
+                          MinimizeBox="False"
+                          ShowIcon="False" />
     </winex:SystemMenu.Menu>
 
-    <DockPanel Margin="12">
+    <DockPanel Margin="16">
 
         <Image DockPanel.Dock="Top"
-               Width="64"
-               Height="64"
+               Width="100"
+               Height="100"
                Source="{StaticResource MainIcon}">
             <Image.Effect>
                 <DropShadowEffect BlurRadius="25"
@@ -33,21 +34,17 @@
         </Image>
 
         <TextBlock DockPanel.Dock="Bottom"
-                   HorizontalAlignment="Right"
+                   HorizontalAlignment="Center"
                    Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
                    Text="{Binding StringFormat='v{0}', Source={x:Static f:Application.ProductVersion}}" />
 
-        <xctk:PropertyGrid DockPanel.Dock="Bottom"
-                           Height="200"
-                           HideInheritedProperties="True"
-                           SelectedObject="{Binding ElementName=SystemMenu}"
-                           ShowSearchBox="False"
-                           ShowSortOptions="False"
-                           ShowSummary="False" />
-
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock>
-                <Hyperlink NavigateUri="#" RequestNavigate="OnShadowDemoClick">Shadow Demo</Hyperlink>
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    TextElement.FontSize="16">
+            <TextBlock TextAlignment="Center" LineHeight="30">
+                <Hyperlink NavigateUri="#" RequestNavigate="OnShadowDemoClick">WindowShadow</Hyperlink>
+                <LineBreak />
+                <Hyperlink NavigateUri="#" RequestNavigate="OnSystemMenuDemoClick">SystemMenu</Hyperlink>
             </TextBlock>
         </StackPanel>
 

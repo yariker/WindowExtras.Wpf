@@ -5,7 +5,12 @@
     <TargetFramework>net462</TargetFramework>
     <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
     <IsPackable>false</IsPackable>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Icon.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.3.0" />

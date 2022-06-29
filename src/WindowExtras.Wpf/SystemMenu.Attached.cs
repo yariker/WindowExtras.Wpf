@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Interop;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Windows.Win32.Foundation;
-using Windows.Win32.Graphics.Gdi;
 using Windows.Win32.UI.WindowsAndMessaging;
 using WindowExtras.Wpf.Helpers;
 using static Windows.Win32.PInvoke;
@@ -12,17 +12,43 @@ namespace WindowExtras.Wpf;
 
 public partial class SystemMenu
 {
+    /// <summary>
+    /// An empty icon (required for icon refresh).
+    /// </summary>
+    private static readonly BitmapSource EmptyBitmap = BitmapSource.Create(
+        1, 1, 96, 96, PixelFormats.Bgra32, null, new byte[] { 0, 0, 0, 0 }, 4);
+
+    /// <summary>
+    /// Identifies the Menu attached property.
+    /// </summary>
     public static readonly DependencyProperty MenuProperty = DependencyProperty.RegisterAttached(
         "Menu", typeof(SystemMenu), typeof(SystemMenu), new PropertyMetadata(OnMenuChanged));
 
-    public static void SetMenu(DependencyObject element, SystemMenu value)
+    /// <summary>
+    /// Gets the value of the <see cref="MenuProperty"/> from the specified <see cref="Window"/>.
+    /// </summary>
+    [AttachedPropertyBrowsableForType(typeof(Window))]
+    public static SystemMenu? GetMenu(DependencyObject element)
     {
-        element.SetValue(MenuProperty, value);
+        if (element == null)
+        {
+            throw new ArgumentNullException(nameof(element));
+        }
+
+        return (SystemMenu)element.GetValue(MenuProperty);
     }
 
-    public static SystemMenu GetMenu(DependencyObject element)
+    /// <summary>
+    /// Sets the value of the <see cref="MenuProperty"/> on the specified <see cref="Window"/>.
+    /// </summary>
+    public static void SetMenu(DependencyObject element, SystemMenu? value)
     {
-        return (SystemMenu)element.GetValue(MenuProperty);
+        if (element == null)
+        {
+            throw new ArgumentNullException(nameof(element));
+        }
+
+        element.SetValue(MenuProperty, value);
     }
 
     private static void OnMenuChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
@@ -49,18 +75,17 @@ public partial class SystemMenu
         }
     }
 
-    private static void OnWindowSourceInitialized(object sender, EventArgs e)
+    private static void OnWindowSourceInitialized(object? sender, EventArgs e)
     {
-        var window = (Window)sender;
+        var window = (Window)sender!;
         var systemMenu = GetMenu(window);
         UpdateSystemMenu(window, systemMenu);
     }
 
     private static void UpdateSystemMenu(Window window, SystemMenu? systemMenu)
     {
-        //UpdateControlBox(window, systemMenu);
+        UpdateControlBox(window, systemMenu);
         UpdateIcon(window, systemMenu);
-        RedrawFrame(window);
     }
 
     private static void UpdateControlBox(Window window, SystemMenu? systemMenu)
@@ -69,44 +94,47 @@ public partial class SystemMenu
         var hwnd = (HWND)hwndSource.Handle;
 
         var menu = GetSystemMenu(hwnd, false);
-        var style = (WINDOW_STYLE)GetWindowLong(hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE);
+        var oldStyle = (WINDOW_STYLE)GetWindowLong(hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE);
+        var newStyle = oldStyle;
 
-        style |= WINDOW_STYLE.WS_THICKFRAME;
-
-        if (systemMenu is { MinimizeBox: true })
+        if (systemMenu == null || systemMenu.MinimizeBox)
         {
             EnableMenuItem(menu, SC_MINIMIZE, MENU_ITEM_FLAGS.MF_BYCOMMAND | MENU_ITEM_FLAGS.MF_ENABLED);
-            style |= WINDOW_STYLE.WS_MINIMIZEBOX;
+            newStyle |= WINDOW_STYLE.WS_MINIMIZEBOX;
         }
         else
         {
             EnableMenuItem(menu, SC_MINIMIZE, MENU_ITEM_FLAGS.MF_BYCOMMAND | MENU_ITEM_FLAGS.MF_GRAYED);
-            style &= ~WINDOW_STYLE.WS_MINIMIZEBOX;
+            newStyle &= ~WINDOW_STYLE.WS_MINIMIZEBOX;
         }
 
-        if (systemMenu is { MaximizeBox: true })
+        if (systemMenu == null || systemMenu.MaximizeBox)
         {
             EnableMenuItem(menu, SC_MAXIMIZE, MENU_ITEM_FLAGS.MF_BYCOMMAND | MENU_ITEM_FLAGS.MF_ENABLED);
-            style |= WINDOW_STYLE.WS_MAXIMIZEBOX;
+            newStyle |= WINDOW_STYLE.WS_MAXIMIZEBOX;
         }
         else
         {
             EnableMenuItem(menu, SC_MAXIMIZE, MENU_ITEM_FLAGS.MF_BYCOMMAND | MENU_ITEM_FLAGS.MF_GRAYED);
-            style &= ~WINDOW_STYLE.WS_MAXIMIZEBOX;
+            newStyle &= ~WINDOW_STYLE.WS_MAXIMIZEBOX;
         }
 
-        if (systemMenu is { ControlBox: true })
+        if (systemMenu == null || systemMenu.ControlBox)
         {
             EnableMenuItem(menu, SC_CLOSE, MENU_ITEM_FLAGS.MF_BYCOMMAND | MENU_ITEM_FLAGS.MF_ENABLED);
-            style |= WINDOW_STYLE.WS_SYSMENU;
+            newStyle |= WINDOW_STYLE.WS_SYSMENU;
         }
         else
         {
             EnableMenuItem(menu, SC_CLOSE, MENU_ITEM_FLAGS.MF_BYCOMMAND | MENU_ITEM_FLAGS.MF_GRAYED);
-            style &= ~WINDOW_STYLE.WS_SYSMENU;
+            newStyle &= ~WINDOW_STYLE.WS_SYSMENU;
         }
 
-        SetWindowLong(hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE, (int)style);
+        if (newStyle != oldStyle)
+        {
+            SetWindowLong(hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE, (int)newStyle);
+            InvalidateFrame(hwnd);
+        }
     }
 
     private static void UpdateIcon(Window window, SystemMenu? systemMenu)
@@ -116,40 +144,40 @@ public partial class SystemMenu
 
         var style = (WINDOW_EX_STYLE)GetWindowLong(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
 
-        if (systemMenu is { ShowIcon: true })
+        if (systemMenu == null || systemMenu.ShowIcon)
         {
             style &= ~WINDOW_EX_STYLE.WS_EX_DLGMODALFRAME;
-            //typeof(Window).GetMethod("UpdateIcon", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(window, null);
+            SetWindowLong(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, (int)style);
+
+            InvalidateFrame(hwnd);
+            RefreshIcon(window);
         }
         else
         {
             style |= WINDOW_EX_STYLE.WS_EX_DLGMODALFRAME;
-            
-        }
+            SetWindowLong(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, (int)style);
 
-        SetWindowLong(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, (int)style);
-        
-        SendMessage(hwnd, WM_SETICON, new WPARAM(ICON_SMALL), 0);
+            InvalidateFrame(hwnd);
+            RefreshIcon(window);
+
+            SendMessage(hwnd, WM_SETICON, new WPARAM(ICON_SMALL), 0);
             SendMessage(hwnd, WM_SETICON, new WPARAM(ICON_BIG), 0);
+        }
     }
 
-    private static void RedrawFrame(Window window)
+    private static void RefreshIcon(Window window)
     {
-        var hwndSource = (HwndSource)PresentationSource.FromVisual(window)!;
-        var hwnd = (HWND)hwndSource.Handle;
+        var icon = window.Icon;
+        window.Icon = EmptyBitmap;
+        window.Icon = icon;
+    }
 
-        //RedrawWindow(hwnd, null, null, REDRAW_WINDOW_FLAGS.RDW_INVALIDATE | REDRAW_WINDOW_FLAGS.RDW_FRAME);
-
+    private static void InvalidateFrame(HWND hwnd)
+    {
         SetWindowPos(hwnd, HWND.HWND_TOP, 0, 0, 0, 0, SET_WINDOW_POS_FLAGS.SWP_NOSIZE |
                                                       SET_WINDOW_POS_FLAGS.SWP_NOZORDER |
                                                       SET_WINDOW_POS_FLAGS.SWP_NOMOVE |
                                                       SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE |
-                                                      SET_WINDOW_POS_FLAGS.SWP_DRAWFRAME);
-
-        RedrawWindow(
-            hwnd,
-            null,
-            null,
-            REDRAW_WINDOW_FLAGS.RDW_INVALIDATE | REDRAW_WINDOW_FLAGS.RDW_ERASE | REDRAW_WINDOW_FLAGS.RDW_ALLCHILDREN);
+                                                      SET_WINDOW_POS_FLAGS.SWP_FRAMECHANGED);
     }
 }
