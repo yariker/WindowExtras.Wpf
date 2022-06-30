@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Markup;
 using System.Windows.Media.Animation;
 
 namespace WindowExtras.Wpf;
@@ -6,8 +7,14 @@ namespace WindowExtras.Wpf;
 /// <summary>
 /// Represents the system menu of a <see cref="Window"/>.
 /// </summary>
+[ContentProperty(nameof(Items))]
 public partial class SystemMenu : Animatable
 {
+    public SystemMenu()
+    {
+        Items = new SystemMenuItemCollection();
+    }
+
     public static readonly DependencyProperty MinimizeBoxProperty = DependencyProperty.Register(
         nameof(MinimizeBox), typeof(bool), typeof(SystemMenu), new PropertyMetadata(true));
 
@@ -42,6 +49,15 @@ public partial class SystemMenu : Animatable
     {
         get { return (bool)GetValue(ShowIconProperty); }
         set { SetValue(ShowIconProperty, value); }
+    }
+
+    public static readonly DependencyProperty ItemsProperty = DependencyProperty.Register(
+        "Items", typeof(SystemMenuItemCollection), typeof(SystemMenu));
+
+    public SystemMenuItemCollection Items
+    {
+        get { return (SystemMenuItemCollection)GetValue(ItemsProperty); }
+        set { SetValue(ItemsProperty, value); }
     }
 
     /// <inheritdoc />

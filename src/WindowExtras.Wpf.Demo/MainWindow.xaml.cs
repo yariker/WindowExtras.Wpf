@@ -32,7 +32,7 @@ namespace WindowExtras.Wpf.Demo
             CreateOrActivate(ref _screenDemo);
         }
 
-        private static void CreateOrActivate<T>(ref T? window) where T: Window, new()
+        private void CreateOrActivate<T>(ref T? window) where T: Window, new()
         {
             if (window?.IsVisible == true)
             {
@@ -45,7 +45,7 @@ namespace WindowExtras.Wpf.Demo
             }
             else
             {
-                window = new T();
+                window = new T { Owner = this };
                 window.Show();
             }
         }

@@ -6,20 +6,34 @@
         xmlns:winex="https://github.com/yariker/WindowExtras.Wpf"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         Title="SystemMenuDemo"
-        Width="350"
+        Width="370"
         Height="350"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
 
     <winex:SystemMenu.Menu>
-        <winex:SystemMenu x:Name="SystemMenu" />
+        <winex:SystemMenu x:Name="SystemMenu">
+            <winex:SystemMenuItem Header="Hello world!" />
+        </winex:SystemMenu>
     </winex:SystemMenu.Menu>
 
-    <xctk:PropertyGrid Margin="16"
-                       HideInheritedProperties="True"
-                       SelectedObject="{Binding ElementName=SystemMenu}"
-                       ShowPreview="False"
-                       ShowSearchBox="False"
-                       ShowSortOptions="False" />
+    <DockPanel Margin="8">
+
+        <TextBlock DockPanel.Dock="Top"
+                   Margin="8"
+                   TextWrapping="Wrap">
+            <Bold>SystemMenu</Bold>
+            is an attached property that allows you to customize the Window menu (also known as the System menu),
+            caption bar icon, and control box.</TextBlock>
+
+        <xctk:PropertyGrid Margin="8"
+                           HideInheritedProperties="True"
+                           SelectedObject="{Binding ElementName=SystemMenu}"
+                           ShowPreview="False"
+                           ShowSearchBox="False"
+                           ShowSortOptions="False"
+                           ShowSummary="False" />
+
+    </DockPanel>
 
 </Window>

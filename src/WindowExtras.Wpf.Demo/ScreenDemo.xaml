@@ -17,6 +17,7 @@
                        SelectedObject="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=(winex:Screen.Current)}"
                        ShowPreview="False"
                        ShowSearchBox="False"
-                       ShowSortOptions="False" />
+                       ShowSortOptions="False"
+                       ShowSummary="False" />
 
 </Window>

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -93,7 +95,9 @@ public partial class SystemMenu
         var hwndSource = (HwndSource)PresentationSource.FromVisual(window)!;
         var hwnd = (HWND)hwndSource.Handle;
 
-        var menu = GetSystemMenu(hwnd, false);
+        GetSystemMenu(hwnd, true);
+
+        using var menu = GetSystemMenu_SafeHandle(hwnd, false);
         var oldStyle = (WINDOW_STYLE)GetWindowLong(hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE);
         var newStyle = oldStyle;
 
@@ -134,6 +138,16 @@ public partial class SystemMenu
         {
             SetWindowLong(hwnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE, (int)newStyle);
             InvalidateFrame(hwnd);
+        }
+
+        if (systemMenu != null && systemMenu.Items.Count > 0)
+        {
+            for (int i = 0; i < systemMenu.Items.Count; i++)
+            {
+                InsertMenu(menu, SC_CLOSE, MENU_ITEM_FLAGS.MF_BYCOMMAND, (nuint)i, systemMenu.Items[i].Header);
+            }
+
+            InsertMenu(menu, SC_CLOSE, MENU_ITEM_FLAGS.MF_BYCOMMAND | MENU_ITEM_FLAGS.MF_SEPARATOR, 0, null);
         }
     }
 

@@ -2,7 +2,9 @@
 GetWindowLong
 SetWindowLong
 GetSystemMenu
+GetMenuItemInfo
 EnableMenuItem
+InsertMenu
 MonitorFromPoint
 MonitorFromWindow
 GetMonitorInfo
