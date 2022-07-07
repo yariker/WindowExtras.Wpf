@@ -1,4 +1,4 @@
-﻿<Window x:Class="WindowExtras.Wpf.ShadowWindow"
+﻿<Window x:Class="WindowExtras.Wpf.Shadows.ShadowWindow"
         x:ClassModifier="internal"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -24,15 +24,8 @@
     </Window.Resources>
 
     <Grid x:Name="Root"
-          Tag="{DynamicResource {x:Static SystemParameters.DropShadowKey}}"
+          CacheMode="BitmapCache"
           TargetUpdated="OnMarginUpdated">
-
-        <Grid.Visibility>
-            <!--  Hide the shadow when "Show shadow under windows" system setting is off.  -->
-            <Binding Path="Tag"
-                     RelativeSource="{RelativeSource Self}"
-                     Converter="{StaticResource BooleanToVisibilityConverter}" />
-        </Grid.Visibility>
 
         <Grid.Margin>
             <MultiBinding NotifyOnTargetUpdated="True" Converter="{StaticResource ShadowMarginConverter}">
@@ -44,18 +37,22 @@
 
         <Border x:Name="Shadow"
                 Background="Black"
-                CacheMode="BitmapCache">
+                Tag="{DynamicResource {x:Static SystemParameters.DropShadowKey}}">
             <Border.RenderTransform>
                 <TranslateTransform x:Name="Translate" />
             </Border.RenderTransform>
             <Border.Effect>
                 <BlurEffect x:Name="Blur" Radius="20" />
             </Border.Effect>
+            <Border.Visibility>
+                <!--  Hide the shadow when "Show shadow under windows" system setting is off.  -->
+                <Binding Path="Tag"
+                         RelativeSource="{RelativeSource Self}"
+                         Converter="{StaticResource BooleanToVisibilityConverter}" />
+            </Border.Visibility>
         </Border>
 
-        <Border x:Name="Backdrop"
-                CacheMode="BitmapCache"
-                CornerRadius="{Binding ElementName=Shadow, Path=CornerRadius}" />
+        <Border x:Name="Backdrop" CornerRadius="{Binding ElementName=Shadow, Path=CornerRadius}" />
 
     </Grid>
 </Window>

@@ -6,6 +6,7 @@
     <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
     <IsPackable>false</IsPackable>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <ItemGroup>

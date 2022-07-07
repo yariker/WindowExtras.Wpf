@@ -3,15 +3,14 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Gdi;
-using WindowExtras.Wpf.Helpers;
 using static Windows.Win32.PInvoke;
 
-namespace WindowExtras.Wpf;
+namespace WindowExtras.Wpf.Helpers;
 
 /// <summary>
 /// Represents a display device.
 /// </summary>
-public partial record Screen
+public record Screen
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="Screen"/> class.

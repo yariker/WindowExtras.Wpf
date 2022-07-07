@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Windows;
 using WindowExtras.Wpf.Helpers;
+using WindowExtras.Wpf.Shadows;
 
 namespace WindowExtras.Wpf;
 
-public partial class WindowShadow
+public static partial class WindowEx
 {
     /// <summary>
-    /// Identifies the WindowShadow attached property.
+    /// Identifies the Shadow attached property.
     /// </summary>
     public static readonly DependencyProperty ShadowProperty = DependencyProperty.RegisterAttached(
-        "Shadow", typeof(WindowShadow), typeof(WindowShadow), new PropertyMetadata(OnShadowChanged));
+        "Shadow", typeof(WindowShadow), typeof(WindowEx), new PropertyMetadata(OnShadowChanged));
 
     /// <summary>
     /// Gets the value of the <see cref="ShadowProperty"/> from the specified <see cref="Window"/>.

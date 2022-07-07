@@ -12,11 +12,9 @@
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
 
-    <winex:SystemMenu.Menu>
-        <winex:SystemMenu MaximizeBox="False"
-                          MinimizeBox="False"
-                          ShowIcon="False" />
-    </winex:SystemMenu.Menu>
+    <winex:WindowEx.SystemMenu>
+        <winex:SystemMenu ShowIcon="False" />
+    </winex:WindowEx.SystemMenu>
 
     <DockPanel Margin="16">
 

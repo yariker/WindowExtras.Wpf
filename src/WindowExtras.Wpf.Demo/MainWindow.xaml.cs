@@ -46,7 +46,7 @@ namespace WindowExtras.Wpf.Demo
             else
             {
                 window = new T { Owner = this };
-                window.Show();
+                window.ShowDialog();
             }
         }
     }

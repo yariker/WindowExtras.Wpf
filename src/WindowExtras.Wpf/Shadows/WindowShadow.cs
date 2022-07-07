@@ -6,12 +6,12 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
 
-namespace WindowExtras.Wpf;
+namespace WindowExtras.Wpf.Shadows;
 
 /// <summary>
 /// Represents an object that describes the customizations to the drop shadow of a <see cref="Window"/>.
 /// </summary>
-public partial class WindowShadow : Animatable
+public class WindowShadow : Animatable
 {
     #region CornerRadius
 

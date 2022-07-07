@@ -5,12 +5,12 @@ using System.Windows.Data;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
-using WindowExtras.Wpf.Helpers;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
+using WindowExtras.Wpf.Helpers;
 using static Windows.Win32.PInvoke;
 
-namespace WindowExtras.Wpf;
+namespace WindowExtras.Wpf.Shadows;
 
 /// <summary>
 /// Interaction logic for ChildWindow.xaml

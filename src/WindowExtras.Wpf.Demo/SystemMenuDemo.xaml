@@ -5,17 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:winex="https://github.com/yariker/WindowExtras.Wpf"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        Title="SystemMenuDemo"
-        Width="370"
-        Height="350"
+        Title="SystemMenu Demo"
+        Width="400"
+        Height="400"
+        MinWidth="400"
+        MinHeight="400"
+        ShowInTaskbar="False"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
 
-    <winex:SystemMenu.Menu>
-        <winex:SystemMenu x:Name="SystemMenu">
-            <winex:SystemMenuItem Header="Hello world!" />
+    <winex:WindowEx.SystemMenu>
+        <winex:SystemMenu x:Name="SystemMenu"
+                          MaximizeBox="False"
+                          MinimizeBox="False">
+            <winex:MenuItem Text="Custom Menu Item 1" />
+            <winex:MenuItem IsSeparator="True" />
+            <winex:MenuItem Text="Custom Menu Item 2" />
         </winex:SystemMenu>
-    </winex:SystemMenu.Menu>
+    </winex:WindowEx.SystemMenu>
 
     <DockPanel Margin="8">
 
