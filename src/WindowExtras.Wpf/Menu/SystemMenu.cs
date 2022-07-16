@@ -146,6 +146,9 @@ public class SystemMenu : Animatable
 
     #endregion
 
+    /// <inheritdoc />
+    protected override Freezable CreateInstanceCore() => new SystemMenu();
+
     internal static void RefreshIcon(Window window, SystemMenu? systemMenu)
     {
         var hwnd = (HWND)window.GetHwnd();
@@ -316,9 +319,9 @@ public class SystemMenu : Animatable
             for (int i = 0; i < systemMenu.Items.Count; i++)
             {
                 var menuItem = systemMenu.Items[i];
-                var flags = MENU_ITEM_FLAGS.MF_BYCOMMAND | MENU_ITEM_FLAGS.MF_UNCHECKED;
+                var flags = MENU_ITEM_FLAGS.MF_BYCOMMAND;
 
-                if (menuItem.IsSeparator)
+                if (menuItem.Kind == MenuItemKind.Separator)
                 {
                     flags |= MENU_ITEM_FLAGS.MF_SEPARATOR;
                 }
@@ -334,7 +337,4 @@ public class SystemMenu : Animatable
             InsertMenu(menu, SC_CLOSE, MENU_ITEM_FLAGS.MF_BYCOMMAND | MENU_ITEM_FLAGS.MF_SEPARATOR, 0, null);
         }
     }
-
-    /// <inheritdoc />
-    protected override Freezable CreateInstanceCore() => new SystemMenu();
 }

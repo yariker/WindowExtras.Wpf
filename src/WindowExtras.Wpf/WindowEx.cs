@@ -16,7 +16,9 @@ public static partial class WindowEx
             return;
         }
 
-        EventManager.RegisterClassHandler(typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(OnWindowLoaded), true);
+        EventManager.RegisterClassHandler(
+            typeof(Window), FrameworkElement.LoadedEvent, new RoutedEventHandler(OnWindowLoaded), true);
+
         SystemEvents.DisplaySettingsChanged += OnDisplaySettingsChanged;
     }
 }

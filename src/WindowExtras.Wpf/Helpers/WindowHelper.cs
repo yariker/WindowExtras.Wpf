@@ -43,7 +43,7 @@ internal static class WindowHelper
     internal static void InvalidateFrame(this Window window)
     {
         var hwnd = window.GetHwnd();
-        SetWindowPos((HWND)hwnd, (HWND)0, 0, 0, 0, 0, SET_WINDOW_POS_FLAGS.SWP_NOSIZE |
+        SetWindowPos((HWND)hwnd, default, 0, 0, 0, 0, SET_WINDOW_POS_FLAGS.SWP_NOSIZE |
                                                       SET_WINDOW_POS_FLAGS.SWP_NOZORDER |
                                                       SET_WINDOW_POS_FLAGS.SWP_NOMOVE |
                                                       SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE |

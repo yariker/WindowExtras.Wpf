@@ -19,7 +19,7 @@
                           MaximizeBox="False"
                           MinimizeBox="False">
             <winex:MenuItem Text="Custom Menu Item 1" />
-            <winex:MenuItem IsSeparator="True" />
+            <winex:MenuItem Kind="Separator" />
             <winex:MenuItem Text="Custom Menu Item 2" />
         </winex:SystemMenu>
     </winex:WindowEx.SystemMenu>
@@ -29,9 +29,9 @@
         <TextBlock DockPanel.Dock="Top"
                    Margin="8"
                    TextWrapping="Wrap">
-            <Bold>SystemMenu</Bold>
-            is an attached property that allows you to customize the Window menu (also known as the System menu),
-            caption bar icon, and control box.</TextBlock>
+            <Bold>WindowEx.SystemMenu</Bold> is an attached property that allows you to customize the <Bold>Window</Bold> menu 
+            (also known as the System menu), caption bar icon, and control box.
+        </TextBlock>
 
         <xctk:PropertyGrid Margin="8"
                            HideInheritedProperties="True"

@@ -1,8 +1,8 @@
 # <img src="src/WindowExtras.Wpf/Icon.png" alt="Logo" width="42" height="42" align="top" /> WindowExtras for WPF
 <a href="https://www.nuget.org/packages/WindowExtras.Wpf" target="_blank"><img alt="NuGet" src="https://img.shields.io/nuget/v/WindowExtras.Wpf" /></a>
 
-This .NET library makes very it easy to attach a custom shadow to the standard WPF window without having to override the window template
-or even making the window transparent. Here's a minimal example:
+This .NET library makes very it easy to attach a custom shadow to the standard WPF window with no need to override the window template
+or make it transparent. Here's a minimal example:
 
 ```XAML
 <Window x:Class="MainWindow"
@@ -15,9 +15,9 @@ or even making the window transparent. Here's a minimal example:
         WindowStyle="None">
     
     <!-- Notice the new attached property below. -->
-    <winex:WindowShadow.Shadow>
+    <winex:WindowEx.Shadow>
         <winex:WindowShadow OffsetY="15" Opacity="0.3" Radius="30" />
-    </winex:WindowShadow.Shadow>
+    </winex:WindowEx.Shadow>
 
     <Button Width="100" Height="32" Click="CloseButtonClick" Content="Close">
         <x:Code><![CDATA[void CloseButtonClick(object sender, EventArgs e) => Close();]]></x:Code>
