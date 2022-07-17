@@ -15,10 +15,19 @@ You can download the [Demo app](https://github.com/yariker/WindowExtras.Wpf/rele
 
 # WindowShadow
 
-You can attach a drop shadow to a window without affecting the window template or conent.
+You can attach a drop shadow to a window without affecting the window template or conent. The drop shadow is:
+* Completely customizable (color, amount of blur, opacity, offset, corner radius, etc.)
+* Transparent to mouse clicks (just like any standard window shadow)
+* Does not affect the actual size of the host window
+* Respects the "Show shadows under windows" option in Performance Options in Windows settings
+* Style/ResourceDictionary-friendly and animatable
 
-Before using this property, Be sure to remove the default window shadow by setting `WindowStyle` to `None`,
-as well as `ResizeMode` to `NoResize` or `AllowsTransparency` to `True`.
+Before using this property, be sure to remove the default window shadow by setting
+[WindowStyle](https://docs.microsoft.com/en-us/dotnet/api/system.windows.window.windowstyle) to `None`,
+as well as any of the following:
+* [ResizeMode](https://docs.microsoft.com/en-us/dotnet/api/system.windows.window.resizemode) to `NoResize`
+* [AllowsTransparency](https://docs.microsoft.com/en-us/dotnet/api/system.windows.window.allowstransparency) to `True`
+* [WindowChrome.GlassFrameThickness](https://docs.microsoft.com/en-us/dotnet/api/system.windows.shell.windowchrome.glassframecompletethickness) to `0`
 
 Here's a minimal example:
 
@@ -37,19 +46,12 @@ Here's a minimal example:
         <winex:WindowShadow OffsetY="15" Opacity="0.3" Radius="30" />
     </winex:WindowEx.WindowShadow>
 
-    <Button Width="100" Height="32" Click="CloseButtonClick" Content="Close">
-        <x:Code><![CDATA[void CloseButtonClick(object sender, EventArgs e) => Close();]]></x:Code>
+    <Button Width="100" Height="32" Click="CloseClick" Content="Close">
+        <x:Code><![CDATA[void CloseClick(object sender, EventArgs e) => Close();]]></x:Code>
     </Button>
 
 </Window>
 ```
-
-This extension is:
-* Completely customizable (color, amount of blur, opacity, offset, corner radius, etc.)
-* Transparent to mouse clicks (just like any standard window shadow)
-* Does not affect the actual size of the host window
-* Respects the "Show shadows under windows" option in Performance Options in Windows settings
-* Style/ResourceDictionary-friendly and animatable
 
 ## Gallery
 
