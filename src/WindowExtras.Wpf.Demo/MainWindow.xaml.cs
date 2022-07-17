@@ -8,7 +8,7 @@ namespace WindowExtras.Wpf.Demo
     /// </summary>
     public partial class MainWindow : Window
     {
-        private ShadowDemo? _shadowDemo;
+        private WindowShadowDemo? _shadowDemo;
         private SystemMenuDemo? _systemMenuDemo;
         private ScreenDemo? _screenDemo;
 

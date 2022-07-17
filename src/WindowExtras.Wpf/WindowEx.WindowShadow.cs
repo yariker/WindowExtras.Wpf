@@ -10,37 +10,37 @@ public static partial class WindowEx
     /// <summary>
     /// Identifies the Shadow attached property.
     /// </summary>
-    public static readonly DependencyProperty ShadowProperty = DependencyProperty.RegisterAttached(
-        "Shadow", typeof(WindowShadow), typeof(WindowEx), new PropertyMetadata(OnShadowChanged));
+    public static readonly DependencyProperty WindowShadowProperty = DependencyProperty.RegisterAttached(
+        "WindowShadow", typeof(WindowShadow), typeof(WindowEx), new PropertyMetadata(OnShadowChanged));
 
     /// <summary>
-    /// Gets the value of the <see cref="ShadowProperty"/> from the specified <see cref="Window"/>.
+    /// Gets the value of the <see cref="WindowShadowProperty"/> from the specified <see cref="Window"/>.
     /// </summary>
     /// <returns>
     /// The instance of <see cref="WindowShadow"/> that is attached to the specified <see cref="Window"/>.
     /// </returns>
     [AttachedPropertyBrowsableForType(typeof(Window))]
-    public static WindowShadow? GetShadow(DependencyObject window)
+    public static WindowShadow? GetWindowShadow(DependencyObject window)
     {
         if (window == null)
         {
             throw new ArgumentNullException(nameof(window));
         }
 
-        return (WindowShadow?)window.GetValue(ShadowProperty);
+        return (WindowShadow?)window.GetValue(WindowShadowProperty);
     }
 
     /// <summary>
-    /// Sets the value of the <see cref="ShadowProperty"/> on the specified <see cref="Window"/>.
+    /// Sets the value of the <see cref="WindowShadowProperty"/> on the specified <see cref="Window"/>.
     /// </summary>
-    public static void SetShadow(DependencyObject window, WindowShadow? value)
+    public static void SetWindowShadow(DependencyObject window, WindowShadow? value)
     {
         if (window == null)
         {
             throw new ArgumentNullException(nameof(window));
         }
 
-        window.SetValue(ShadowProperty, value);
+        window.SetValue(WindowShadowProperty, value);
     }
 
     private static void OnShadowChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)

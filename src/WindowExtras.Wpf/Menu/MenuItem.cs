@@ -203,7 +203,7 @@ public class MenuItem : Animatable, ICommandSource
     /// <inheritdoc />
     protected override Freezable CreateInstanceCore() => new MenuItem();
 
-    private void OnCommandCanExecuteChanged(object sender, EventArgs e)
+    private void OnCommandCanExecuteChanged(object? sender, EventArgs e)
     {
         UpdateIsEnabledCore();
     }

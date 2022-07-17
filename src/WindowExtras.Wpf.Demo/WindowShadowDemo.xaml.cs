@@ -3,11 +3,11 @@
 namespace WindowExtras.Wpf.Demo;
 
 /// <summary>
-/// Interaction logic for ShadowDemo.xaml
+/// Interaction logic for WindowShadowDemo.xaml
 /// </summary>
-public partial class ShadowDemo : Window
+public partial class WindowShadowDemo : Window
 {
-    public ShadowDemo()
+    public WindowShadowDemo()
     {
         InitializeComponent();
     }
