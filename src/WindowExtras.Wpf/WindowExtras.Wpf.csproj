@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net462;net5.0-windows</TargetFrameworks>
+    <TargetFrameworks>net5.0-windows;net462</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPublishable>false</IsPublishable>
   </PropertyGroup>
@@ -11,7 +11,11 @@
     <PackageId>WindowExtras.Wpf</PackageId>
     <PackageIcon>Icon.png</PackageIcon>
     <Product>WindowExtras.Wpf</Product>
-    <Description>Provides a customizable drop shadow that can be attached to any WPF window in XAML.</Description>
+    <Description>
+      Provides useful extensions to a WPF Window in XAML: custom window shadow,
+      system menu (customization of control box, window icon, and menu items),
+      access to display properties in a multi-display scenario.
+    </Description>
     <PackageProjectUrl>https://github.com/yariker/WindowExtras.Wpf</PackageProjectUrl>
     <RepositoryUrl>https://github.com/yariker/WindowExtras.Wpf.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
