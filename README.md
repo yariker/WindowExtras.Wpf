@@ -13,9 +13,9 @@ Extensions are provided as attached properties, accessible as `winex:WindowEx.*`
 
 You can download the [Demo app](https://github.com/yariker/WindowExtras.Wpf/releases) to see these properties in action.
 
-# WindowShadow
+## WindowShadow
 
-You can attach a drop shadow to a window without affecting the window template or conent. The drop shadow is:
+You can attach a drop shadow to a window without affecting the window template or content. The drop shadow is:
 * Completely customizable (color, amount of blur, opacity, offset, corner radius, etc.)
 * Transparent to mouse clicks (just like any standard window shadow)
 * Does not affect the actual size of the host window
@@ -53,7 +53,7 @@ Here's a minimal example:
 </Window>
 ```
 
-## Gallery
+### Gallery
 
 <p float='middle'>
   <img src='doc/Demo1.png' width='32%' />

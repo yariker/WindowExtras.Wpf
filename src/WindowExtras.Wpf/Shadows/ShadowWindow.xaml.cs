@@ -45,15 +45,19 @@ internal partial class ShadowWindow : Window
 
     #endregion
 
-    private Window? _owner;
     private HWND _hwnd;
-    private HWND _ownerHwnd;
     private HwndTarget? _hwndTarget;
+
+    private Window? _hostWindow;
+    private HWND _hostHwnd;
+
+    private HwndSource? _ownerSource;
+
     private int _left;
     private int _top;
     private int _width;
     private int _height;
-
+    
     internal ShadowWindow()
     {
         InitializeComponent();
@@ -61,7 +65,7 @@ internal partial class ShadowWindow : Window
 
     internal void TryShow()
     {
-        if (!IsVisible && _owner?.IsLoaded == true)
+        if (!IsVisible && _hostWindow?.IsLoaded == true)
         {
             Show();
         }
@@ -122,44 +126,61 @@ internal partial class ShadowWindow : Window
             throw new ArgumentNullException(nameof(window));
         }
 
-        if (_owner != window)
+        if (_hostWindow != window)
         {
-            _owner = window;
-            _owner.Loaded += OnOwnerLoaded;
-            _owner.LocationChanged += OnOwnerLocationChanged;
-            _owner.SizeChanged += OnOwnerSizeChanged;
-            _owner.Activated += OnOwnerActivated;
-            _owner.StateChanged += OnOwnerStateChanged;
-            _owner.Closed += OnOwnerClosed;
+            _hostWindow = window;
+            _hostWindow.Loaded += OnHostWindowLoaded;
+            _hostWindow.LocationChanged += OnHostWindowLocationChanged;
+            _hostWindow.SizeChanged += OnHostWindowSizeChanged;
+            _hostWindow.Activated += OnHostWindowActivated;
+            _hostWindow.StateChanged += OnHostWindowStateChanged;
+            _hostWindow.Closed += OnHostWindowClosed;
         }
     }
 
     internal void Detach()
     {
-        if (_owner != null)
+        if (_hostWindow != null)
         {
-            _owner.Loaded -= OnOwnerLoaded;
-            _owner.LocationChanged -= OnOwnerLocationChanged;
-            _owner.SizeChanged -= OnOwnerSizeChanged;
-            _owner.Activated -= OnOwnerActivated;
-            _owner.StateChanged -= OnOwnerStateChanged;
-            _owner.Closed -= OnOwnerClosed;
-            _owner = null;
+            _hostWindow.Loaded -= OnHostWindowLoaded;
+            _hostWindow.LocationChanged -= OnHostWindowLocationChanged;
+            _hostWindow.SizeChanged -= OnHostWindowSizeChanged;
+            _hostWindow.Activated -= OnHostWindowActivated;
+            _hostWindow.StateChanged -= OnHostWindowStateChanged;
+            _hostWindow.Closed -= OnHostWindowClosed;
+            _hostWindow = null;
+        }
+
+        if (_ownerSource != null)
+        {
+            _ownerSource.RemoveHook(OwnerHook);
+            _ownerSource = null;
         }
     }
 
     private void OnSourceInitialized(object? sender, EventArgs e)
     {
-        var ownerInterop = new WindowInteropHelper(_owner ?? throw new InvalidOperationException());
-        _ownerHwnd = (HWND)ownerInterop.Handle;
+        if (_hostWindow == null)
+        {
+            throw new InvalidOperationException();
+        }
 
-        var windowInterop = new WindowInteropHelper(this);
-        _hwnd = (HWND)windowInterop.Handle;
+        // Host window.
+        var hostSource = (HwndSource)PresentationSource.FromVisual(_hostWindow)!;
+        _hostHwnd = (HWND)hostSource.Handle;
 
-        var hwndSource = HwndSource.FromHwnd(windowInterop.Handle)!;
-        hwndSource.AddHook(WindowHook);
+        // Owner's owner window.
+        if (_hostWindow.Owner is Window hostOwner)
+        {
+            _ownerSource = (HwndSource)PresentationSource.FromVisual(hostOwner)!;
+            _ownerSource.AddHook(OwnerHook);
+        }
 
+        // Shadow window.
+        var hwndSource = (HwndSource)PresentationSource.FromVisual(this)!;
+        _hwnd = (HWND)hwndSource.Handle;
         _hwndTarget = hwndSource.CompositionTarget;
+        hwndSource.AddHook(WindowHook);
 
         SetTransparent();
     }
@@ -169,30 +190,30 @@ internal partial class ShadowWindow : Window
         Detach();
     }
 
-    private void OnOwnerLoaded(object sender, RoutedEventArgs e)
+    private void OnHostWindowLoaded(object sender, RoutedEventArgs e)
     {
         UpdatePosition(true, true);
         TryShow();
     }
 
-    private void OnOwnerLocationChanged(object? sender, EventArgs e)
+    private void OnHostWindowLocationChanged(object? sender, EventArgs e)
     {
         UpdatePosition(true, false);
     }
 
-    private void OnOwnerSizeChanged(object sender, SizeChangedEventArgs e)
+    private void OnHostWindowSizeChanged(object sender, SizeChangedEventArgs e)
     {
         UpdatePosition(false, true);
     }
 
-    private void OnOwnerActivated(object? sender, EventArgs e)
+    private void OnHostWindowActivated(object? sender, EventArgs e)
     {
         UpdatePosition(true, true);
     }
 
-    private void OnOwnerStateChanged(object? sender, EventArgs e)
+    private void OnHostWindowStateChanged(object? sender, EventArgs e)
     {
-        switch (_owner?.WindowState)
+        switch (_hostWindow?.WindowState)
         {
             case WindowState.Normal:
                 Visibility = Visibility.Visible;
@@ -205,7 +226,7 @@ internal partial class ShadowWindow : Window
         }
     }
 
-    private void OnOwnerClosed(object? sender, EventArgs e)
+    private void OnHostWindowClosed(object? sender, EventArgs e)
     {
         Close();
     }
@@ -224,7 +245,7 @@ internal partial class ShadowWindow : Window
 
     private void UpdatePosition(bool move, bool resize)
     {
-        if (_owner == null)
+        if (_hostWindow == null)
         {
             return;
         }
@@ -234,12 +255,12 @@ internal partial class ShadowWindow : Window
                     SET_WINDOW_POS_FLAGS.SWP_NOSENDCHANGING;
 
         var location = new Point(
-            _owner.Left - margin.Left,
-            _owner.Top - margin.Top);
+            _hostWindow.Left - margin.Left,
+            _hostWindow.Top - margin.Top);
 
         var size = new Point(
-            _owner.Width + margin.Left + margin.Right,
-            _owner.Height + margin.Top + margin.Bottom);
+            _hostWindow.Width + margin.Left + margin.Right,
+            _hostWindow.Height + margin.Top + margin.Bottom);
 
         if (!move)
         {
@@ -267,7 +288,7 @@ internal partial class ShadowWindow : Window
                 _height = DpiHelper.Round(point.Y);
             }
 
-            SetWindowPos(_hwnd, _ownerHwnd, _left, _top, _width, _height, flags);
+            SetWindowPos(_hwnd, _hostHwnd, _left, _top, _width, _height, flags);
         }
         else
         {
@@ -285,12 +306,12 @@ internal partial class ShadowWindow : Window
         }
     }
 
-    private unsafe IntPtr WindowHook(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam, ref bool handled)
+    private unsafe nint WindowHook(nint hwnd, int msg, nint wparam, nint lparam, ref bool handled)
     {
         if (msg == WM_WINDOWPOSCHANGING)
         {
             var position = (WINDOWPOS*)lparam;
-            position->hwndInsertAfter = _ownerHwnd;
+            position->hwndInsertAfter = _hostHwnd;
             position->x = _left;
             position->y = _top;
             position->cx = _width;
@@ -298,6 +319,23 @@ internal partial class ShadowWindow : Window
             handled = true;
         }
 
-        return IntPtr.Zero;
+        return 0;
+    }
+
+    private unsafe nint OwnerHook(nint hwnd, int msg, nint wparam, nint lparam, ref bool handled)
+    {
+        if (msg == WM_WINDOWPOSCHANGED)
+        {
+            var position = (WINDOWPOS*)lparam;
+
+            if (position->hwndInsertAfter != _hwnd)
+            {
+                UpdatePosition(false, false);
+            }
+
+            handled = true;
+        }
+
+        return 0;
     }
 }

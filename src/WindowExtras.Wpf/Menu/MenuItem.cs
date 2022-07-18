@@ -57,7 +57,7 @@ public class MenuItem : Animatable, ICommandSource
     /// <summary>
     /// Gets or sets the value determining the menu item kind.
     /// </summary>
-    [Category("Common")]
+    [Category("Appearance")]
     public MenuItemKind Kind
     {
         get => (MenuItemKind)GetValue(KindProperty);
@@ -77,7 +77,7 @@ public class MenuItem : Animatable, ICommandSource
     /// <summary>
     /// Gets or sets the menu item text.
     /// </summary>
-    [Category("Common")]
+    [Category("Appearance")]
     public string Text
     {
         get => (string)GetValue(TextProperty);
