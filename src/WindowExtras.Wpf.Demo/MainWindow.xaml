@@ -7,7 +7,7 @@
         xmlns:winex="https://github.com/yariker/WindowExtras.Wpf"
         Title="WindowExtras for WPF"
         Width="450"
-        Height="320"
+        Height="350"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
@@ -41,11 +41,13 @@
                     VerticalAlignment="Center"
                     TextElement.FontSize="16">
             <TextBlock LineHeight="30" TextAlignment="Center">
-                <Hyperlink NavigateUri="#" RequestNavigate="OnShadowDemoClick">WindowShadow</Hyperlink>
+                <Hyperlink NavigateUri="#" RequestNavigate="OnShadowDemoClick">Window Shadow</Hyperlink>
                 <LineBreak />
-                <Hyperlink NavigateUri="#" RequestNavigate="OnSystemMenuDemoClick">SystemMenu</Hyperlink>
+                <Hyperlink NavigateUri="#" RequestNavigate="OnSystemMenuDemoClick">System Menu</Hyperlink>
                 <LineBreak />
-                <Hyperlink NavigateUri="#" RequestNavigate="OnScreenDemoClick">Screen</Hyperlink>
+                <Hyperlink NavigateUri="#" RequestNavigate="OnScreenDemoClick">Screen</Hyperlink>                
+                <LineBreak />
+                <Hyperlink NavigateUri="#" RequestNavigate="OnSystemCommandsClick">System Commands</Hyperlink>
             </TextBlock>
         </StackPanel>
 

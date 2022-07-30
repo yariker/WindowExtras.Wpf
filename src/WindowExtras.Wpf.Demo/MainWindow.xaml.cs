@@ -11,6 +11,7 @@ namespace WindowExtras.Wpf.Demo
         private WindowShadowDemo? _shadowDemo;
         private SystemMenuDemo? _systemMenuDemo;
         private ScreenDemo? _screenDemo;
+        private SystemCommandsDemo? _systemCommandsDemo;
 
         public MainWindow()
         {
@@ -30,6 +31,11 @@ namespace WindowExtras.Wpf.Demo
         private void OnScreenDemoClick(object sender, RequestNavigateEventArgs e)
         {
             CreateOrActivate(ref _screenDemo);
+        }
+
+        private void OnSystemCommandsClick(object sender, RequestNavigateEventArgs e)
+        {
+            CreateOrActivate(ref _systemCommandsDemo);
         }
 
         private void CreateOrActivate<T>(ref T? window) where T: Window, new()

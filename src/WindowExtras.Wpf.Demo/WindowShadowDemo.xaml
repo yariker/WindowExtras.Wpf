@@ -11,6 +11,7 @@
         Height="350"
         MinWidth="400"
         MinHeight="350"
+        winex:WindowEx.EnableSystemCommands="True"
         ShowInTaskbar="False"
         UseLayoutRounding="True"
         WindowStartupLocation="CenterScreen"
@@ -62,17 +63,13 @@
 
         <Button DockPanel.Dock="Top"
                 HorizontalAlignment="Center"
+                Command="SystemCommands.CloseWindowCommand"
                 Style="{StaticResource CaptionButtonStyle}"
                 ToolTip="Close"
                 WindowChrome.IsHitTestVisibleInChrome="True">
             <Path Data="{StaticResource CloseIcon}"
                   Fill="Black"
                   Stretch="Fill" />
-            <b:Interaction.Triggers>
-                <b:EventTrigger EventName="Click">
-                    <b:CallMethodAction MethodName="Close" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=Window}}" />
-                </b:EventTrigger>
-            </b:Interaction.Triggers>
         </Button>
 
         <Expander DockPanel.Dock="Bottom"

@@ -1,0 +1,34 @@
+﻿<Window x:Class="WindowExtras.Wpf.Demo.SystemCommandsDemo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:winex="https://github.com/yariker/WindowExtras.Wpf"
+        Title="System Commands Demo"
+        Width="350"
+        Height="250"
+        MinWidth="350"
+        MinHeight="250"
+        winex:WindowEx.EnableSystemCommands="True"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner"
+        mc:Ignorable="d">
+
+    <Window.Resources>
+
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="10,3" />
+            <Setter Property="Margin" Value="3" />
+        </Style>
+
+    </Window.Resources>
+
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Button Command="SystemCommands.ShowSystemMenuCommand" Content="Show System Menu" />
+        <Button Command="SystemCommands.RestoreWindowCommand" Content="Restore" />
+        <Button Command="SystemCommands.MinimizeWindowCommand" Content="Minimize" />
+        <Button Command="SystemCommands.MaximizeWindowCommand" Content="Maximize" />
+        <Button Command="SystemCommands.CloseWindowCommand" Content="Close" />
+    </StackPanel>
+
+</Window>

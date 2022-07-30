@@ -7,6 +7,7 @@ EnableMenuItem
 InsertMenu
 MonitorFromPoint
 MonitorFromWindow
+GetCursorPos
 GetMonitorInfo
 GetDC
 ReleaseDC
