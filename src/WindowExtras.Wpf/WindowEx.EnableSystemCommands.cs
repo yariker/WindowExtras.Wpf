@@ -85,12 +85,12 @@ public static partial class WindowEx
         }
     }
 
-    private static void OnWindowStateChanged(object sender, EventArgs e)
+    private static void OnWindowStateChanged(object? sender, EventArgs e)
     {
         CommandManager.InvalidateRequerySuggested();
     }
 
-    private static void OnCloseWindowExecute(object sender, ExecutedRoutedEventArgs e)
+    private static void OnCloseWindowExecute(object? sender, ExecutedRoutedEventArgs e)
     {
         if (sender is Window window)
         {
@@ -99,7 +99,7 @@ public static partial class WindowEx
         }
     }
 
-    private static void OnCloseWindowCanExecute(object sender, CanExecuteRoutedEventArgs e)
+    private static void OnCloseWindowCanExecute(object? sender, CanExecuteRoutedEventArgs e)
     {
         if (sender is Window window)
         {
@@ -108,7 +108,7 @@ public static partial class WindowEx
         }
     }
 
-    private static void OnMaximizeWindowExecute(object sender, ExecutedRoutedEventArgs e)
+    private static void OnMaximizeWindowExecute(object? sender, ExecutedRoutedEventArgs e)
     {
         if (sender is Window window)
         {
@@ -117,7 +117,7 @@ public static partial class WindowEx
         }
     }
 
-    private static void OnMaximizeWindowCanExecute(object sender, CanExecuteRoutedEventArgs e)
+    private static void OnMaximizeWindowCanExecute(object? sender, CanExecuteRoutedEventArgs e)
     {
         if (sender is Window window)
         {
@@ -128,7 +128,7 @@ public static partial class WindowEx
         }
     }
 
-    private static void OnMinimizeWindowExecute(object sender, ExecutedRoutedEventArgs e)
+    private static void OnMinimizeWindowExecute(object? sender, ExecutedRoutedEventArgs e)
     {
         if (sender is Window window)
         {
@@ -137,7 +137,7 @@ public static partial class WindowEx
         }
     }
 
-    private static void OnMinimizeWindowCanExecute(object sender, CanExecuteRoutedEventArgs e)
+    private static void OnMinimizeWindowCanExecute(object? sender, CanExecuteRoutedEventArgs e)
     {
         if (sender is Window window)
         {
@@ -148,7 +148,7 @@ public static partial class WindowEx
         }
     }
 
-    private static void OnRestoreWindowExecute(object sender, ExecutedRoutedEventArgs e)
+    private static void OnRestoreWindowExecute(object? sender, ExecutedRoutedEventArgs e)
     {
         if (sender is Window window)
         {
@@ -157,7 +157,7 @@ public static partial class WindowEx
         }
     }
 
-    private static void OnRestoreWindowCanExecute(object sender, CanExecuteRoutedEventArgs e)
+    private static void OnRestoreWindowCanExecute(object? sender, CanExecuteRoutedEventArgs e)
     {
         if (sender is Window window)
         {
