@@ -49,6 +49,7 @@ internal partial class ShadowWindow : Window
     private HwndTarget? _hwndTarget;
 
     private Window? _hostWindow;
+    private HwndSource? _hostSource;
     private HWND _hostHwnd;
 
     private HwndSource? _ownerSource;
@@ -57,7 +58,7 @@ internal partial class ShadowWindow : Window
     private int _top;
     private int _width;
     private int _height;
-    
+
     internal ShadowWindow()
     {
         InitializeComponent();
@@ -130,10 +131,6 @@ internal partial class ShadowWindow : Window
         {
             _hostWindow = window;
             _hostWindow.Loaded += OnHostWindowLoaded;
-            _hostWindow.LocationChanged += OnHostWindowLocationChanged;
-            _hostWindow.SizeChanged += OnHostWindowSizeChanged;
-            _hostWindow.Activated += OnHostWindowActivated;
-            _hostWindow.StateChanged += OnHostWindowStateChanged;
             _hostWindow.Closed += OnHostWindowClosed;
         }
     }
@@ -143,17 +140,19 @@ internal partial class ShadowWindow : Window
         if (_hostWindow != null)
         {
             _hostWindow.Loaded -= OnHostWindowLoaded;
-            _hostWindow.LocationChanged -= OnHostWindowLocationChanged;
-            _hostWindow.SizeChanged -= OnHostWindowSizeChanged;
-            _hostWindow.Activated -= OnHostWindowActivated;
-            _hostWindow.StateChanged -= OnHostWindowStateChanged;
             _hostWindow.Closed -= OnHostWindowClosed;
             _hostWindow = null;
         }
 
+        if (_hostSource != null)
+        {
+            _hostSource.RemoveHook(HostWindowHook);
+            _hostSource = null;
+        }
+
         if (_ownerSource != null)
         {
-            _ownerSource.RemoveHook(OwnerHook);
+            _ownerSource.RemoveHook(HostOwnerHook);
             _ownerSource = null;
         }
     }
@@ -166,21 +165,22 @@ internal partial class ShadowWindow : Window
         }
 
         // Host window.
-        var hostSource = (HwndSource)PresentationSource.FromVisual(_hostWindow)!;
-        _hostHwnd = (HWND)hostSource.Handle;
+        _hostSource = (HwndSource)PresentationSource.FromVisual(_hostWindow)!;
+        _hostHwnd = (HWND)_hostSource.Handle;
+        _hostSource.AddHook(HostWindowHook);
 
         // Owner's owner window.
         if (_hostWindow.Owner is Window hostOwner)
         {
             _ownerSource = (HwndSource)PresentationSource.FromVisual(hostOwner)!;
-            _ownerSource.AddHook(OwnerHook);
+            _ownerSource.AddHook(HostOwnerHook);
         }
 
         // Shadow window.
         var hwndSource = (HwndSource)PresentationSource.FromVisual(this)!;
         _hwnd = (HWND)hwndSource.Handle;
         _hwndTarget = hwndSource.CompositionTarget;
-        hwndSource.AddHook(WindowHook);
+        hwndSource.AddHook(ShadowWindowHook);
 
         SetTransparent();
     }
@@ -194,36 +194,6 @@ internal partial class ShadowWindow : Window
     {
         UpdatePosition(true, true);
         TryShow();
-    }
-
-    private void OnHostWindowLocationChanged(object? sender, EventArgs e)
-    {
-        UpdatePosition(true, false);
-    }
-
-    private void OnHostWindowSizeChanged(object sender, SizeChangedEventArgs e)
-    {
-        UpdatePosition(false, true);
-    }
-
-    private void OnHostWindowActivated(object? sender, EventArgs e)
-    {
-        UpdatePosition(true, true);
-    }
-
-    private void OnHostWindowStateChanged(object? sender, EventArgs e)
-    {
-        switch (_hostWindow?.WindowState)
-        {
-            case WindowState.Normal:
-                Visibility = Visibility.Visible;
-                break;
-
-            case WindowState.Minimized:
-            case WindowState.Maximized:
-                Visibility = Visibility.Collapsed;
-                break;
-        }
     }
 
     private void OnHostWindowClosed(object? sender, EventArgs e)
@@ -243,6 +213,30 @@ internal partial class ShadowWindow : Window
         SetWindowLong(_hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, (int)style);
     }
 
+    private unsafe void UpdatePosition(WINDOWPOS* hostPosition)
+    {
+        if (_hostWindow == null || _hwndTarget == null)
+        {
+            return;
+        }
+
+        var margin = Root.Margin;
+
+        var location = new Point(-margin.Left, -margin.Top);
+        location = _hwndTarget.TransformToDevice.Transform(location);
+        location.Offset(hostPosition->x, hostPosition->y);
+
+        var size = new Point(margin.Left + margin.Right, margin.Top + margin.Bottom);
+        size = _hwndTarget.TransformToDevice.Transform(size);
+        size.Offset(hostPosition->cx, hostPosition->cy);
+
+        UpdatePosition(
+            DpiHelper.Round(location.X), DpiHelper.Round(location.Y),
+            DpiHelper.Round(size.X), DpiHelper.Round(size.Y),
+            !hostPosition->flags.HasFlag(SET_WINDOW_POS_FLAGS.SWP_NOMOVE),
+            !hostPosition->flags.HasFlag(SET_WINDOW_POS_FLAGS.SWP_NOSIZE));
+    }
+
     private void UpdatePosition(bool move, bool resize)
     {
         if (_hostWindow == null)
@@ -251,8 +245,6 @@ internal partial class ShadowWindow : Window
         }
 
         var margin = Root.Margin;
-        var flags = SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE |
-                    SET_WINDOW_POS_FLAGS.SWP_NOSENDCHANGING;
 
         var location = new Point(
             _hostWindow.Left - margin.Left,
@@ -262,33 +254,20 @@ internal partial class ShadowWindow : Window
             _hostWindow.Width + margin.Left + margin.Right,
             _hostWindow.Height + margin.Top + margin.Bottom);
 
-        if (!move)
-        {
-            flags |= SET_WINDOW_POS_FLAGS.SWP_NOMOVE;
-        }
+        UpdatePosition(location, size, move, resize);
+    }
 
-        if (!resize)
-        {
-            flags |= SET_WINDOW_POS_FLAGS.SWP_NOSIZE;
-        }
-
+    private void UpdatePosition(Point location, Point size, bool move, bool resize)
+    {
         if (_hwndTarget != null)
         {
-            if (move)
-            {
-                var point = _hwndTarget.TransformToDevice.Transform(location);
-                _left = DpiHelper.Round(point.X);
-                _top = DpiHelper.Round(point.Y);
-            }
+            location = _hwndTarget.TransformToDevice.Transform(location);
+            size = _hwndTarget.TransformToDevice.Transform(size);
 
-            if (resize)
-            {
-                var point = _hwndTarget.TransformToDevice.Transform(size);
-                _width = DpiHelper.Round(point.X);
-                _height = DpiHelper.Round(point.Y);
-            }
-
-            SetWindowPos(_hwnd, _hostHwnd, _left, _top, _width, _height, flags);
+            UpdatePosition(
+                DpiHelper.Round(location.X), DpiHelper.Round(location.Y),
+                DpiHelper.Round(size.X), DpiHelper.Round(size.Y),
+                move, resize);
         }
         else
         {
@@ -306,10 +285,76 @@ internal partial class ShadowWindow : Window
         }
     }
 
-    private unsafe nint WindowHook(nint hwnd, int msg, nint wparam, nint lparam, ref bool handled)
+    private void UpdatePosition(int left, int top, int width, int height, bool move, bool resize)
+    {
+        if (_hostWindow == null)
+        {
+            return;
+        }
+
+        var flags = SET_WINDOW_POS_FLAGS.SWP_NOACTIVATE |
+                    SET_WINDOW_POS_FLAGS.SWP_NOSENDCHANGING;
+
+        if (!move)
+        {
+            flags |= SET_WINDOW_POS_FLAGS.SWP_NOMOVE;
+        }
+
+        if (!resize)
+        {
+            flags |= SET_WINDOW_POS_FLAGS.SWP_NOSIZE;
+        }
+
+        if (move)
+        {
+            _left = left;
+            _top = top;
+        }
+
+        if (resize)
+        {
+            _width = width;
+            _height = height;
+        }
+
+        SetWindowPos(_hwnd, _hostHwnd, _left, _top, _width, _height, flags);
+    }
+
+    private unsafe nint HostWindowHook(nint hwnd, int msg, nint wparam, nint lparam, ref bool handled)
+    {
+        if (msg == WM_WINDOWPOSCHANGED)
+        {
+            var position = (WINDOWPOS*)lparam;
+            UpdatePosition(position);
+        }
+        else if (msg == WM_SIZE)
+        {
+            if (wparam == SIZE_MAXIMIZED || wparam == SIZE_MINIMIZED)
+            {
+                Hide();
+            }
+            else
+            {
+                Show();
+            }
+        }
+        else if (msg == WM_SYSCOMMAND)
+        {
+            var command = wparam & 0xFFF0;
+            if (command == SC_MAXIMIZE || command == SC_MINIMIZE)
+            {
+                Hide();
+            }
+        }
+
+        return 0;
+    }
+
+    private unsafe nint ShadowWindowHook(nint hwnd, int msg, nint wparam, nint lparam, ref bool handled)
     {
         if (msg == WM_WINDOWPOSCHANGING)
         {
+            // Override shadow window position.
             var position = (WINDOWPOS*)lparam;
             position->hwndInsertAfter = _hostHwnd;
             position->x = _left;
@@ -322,18 +367,16 @@ internal partial class ShadowWindow : Window
         return 0;
     }
 
-    private unsafe nint OwnerHook(nint hwnd, int msg, nint wparam, nint lparam, ref bool handled)
+    private unsafe nint HostOwnerHook(nint hwnd, int msg, nint wparam, nint lparam, ref bool handled)
     {
         if (msg == WM_WINDOWPOSCHANGED)
         {
             var position = (WINDOWPOS*)lparam;
-
             if (position->hwndInsertAfter != _hwnd)
             {
+                // Update shadow window z-order.
                 UpdatePosition(false, false);
             }
-
-            handled = true;
         }
 
         return 0;

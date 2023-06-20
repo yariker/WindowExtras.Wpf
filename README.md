@@ -1,7 +1,7 @@
 # <img src='src/WindowExtras.Wpf/Icon.png' alt='Logo' width='42' height='42' align='top' /> WindowExtras for WPF
 <a href='https://www.nuget.org/packages/WindowExtras.Wpf' target='_blank'><img alt='NuGet' src='https://img.shields.io/nuget/v/WindowExtras.Wpf' /></a>
 
-This package contains useful extensions for the WPF Window for .NET Framework and .NET 5.0+.
+This package contains useful extensions for the WPF Window for .NET Framework and .NET 6.0+.
 
 Extensions are provided as attached properties, accessible as `winex:WindowEx.*` via XAML:
 

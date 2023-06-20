@@ -13,7 +13,9 @@ GetDC
 ReleaseDC
 GetDeviceCaps
 SendMessage
+ShowWindow
 RedrawWindow
+UpdateLayeredWindow
 MONITORINFOF_PRIMARY
 MONITORINFOEXW
 WINDOW_STYLE
@@ -22,4 +24,8 @@ WINDOWPOS
 ICON_*
 WM_*
 SC_*
+SW_*
+WS_*
+AC_*
 HWND_TOP
+SIZE_*

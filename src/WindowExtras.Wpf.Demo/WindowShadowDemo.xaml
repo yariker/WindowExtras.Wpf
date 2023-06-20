@@ -61,16 +61,20 @@
 
     <DockPanel Style="{StaticResource RootPanelStyle}">
 
-        <Button DockPanel.Dock="Top"
-                HorizontalAlignment="Center"
-                Command="SystemCommands.CloseWindowCommand"
-                Style="{StaticResource CaptionButtonStyle}"
-                ToolTip="Close"
-                WindowChrome.IsHitTestVisibleInChrome="True">
-            <Path Data="{StaticResource CloseIcon}"
-                  Fill="Black"
-                  Stretch="Fill" />
-        </Button>
+        <Grid DockPanel.Dock="Top" HorizontalAlignment="Right">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="{Binding ElementName=CornerRadiusSlider, Path=Value}" />
+            </Grid.ColumnDefinitions>
+            <Button Command="SystemCommands.CloseWindowCommand"
+                    Style="{StaticResource CaptionButtonStyle}"
+                    ToolTip="Close"
+                    WindowChrome.IsHitTestVisibleInChrome="True">
+                <Path Data="{StaticResource CloseIcon}"
+                      Fill="Black"
+                      Stretch="Fill" />
+            </Button>
+        </Grid>
 
         <Expander DockPanel.Dock="Bottom"
                   MaxWidth="800"
