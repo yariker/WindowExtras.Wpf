@@ -21,7 +21,7 @@ public class SystemMenu : Animatable
     /// </summary>
     public SystemMenu()
     {
-        Items = new MenuItemCollection();
+        Items = [];
     }
 
     #region MinimizeBox
@@ -37,7 +37,7 @@ public class SystemMenu : Animatable
     /// </summary>
     /// <value>
     /// <c>true</c> to display the Minimize button in the caption bar; <c>false</c> to hide it.
-    /// The default value is <c>null</c>, which let's the <see cref="Window"/> handle its Minimize button
+    /// The default value is <c>null</c>, which lets the <see cref="Window"/> handle its Minimize button
     /// visibility based on the <see cref="Window.ResizeMode"/>.
     /// </value>
     [Category("Common")]
@@ -62,7 +62,7 @@ public class SystemMenu : Animatable
     /// </summary>
     /// <value>
     /// <c>true</c> to display the Maximize button in the caption bar; <c>false</c> to hide it.
-    /// The default value is <c>null</c>, which let's the <see cref="Window"/> handle its Maximize button
+    /// The default value is <c>null</c>, which lets the <see cref="Window"/> handle its Maximize button
     /// visibility based on the <see cref="Window.ResizeMode"/>.
     /// </value>
     [Category("Common")]
@@ -104,7 +104,7 @@ public class SystemMenu : Animatable
     /// Identifies the <see cref="ShowIcon"/> dependency property.
     /// </summary>
     public static readonly DependencyProperty ShowIconProperty = DependencyProperty.Register(
-        "ShowIcon", typeof(bool), typeof(SystemMenu), new PropertyMetadata(true));
+        nameof(ShowIcon), typeof(bool), typeof(SystemMenu), new PropertyMetadata(true));
 
     /// <summary>
     /// Gets or sets a value indicating whether an icon is displayed in the caption bar of the <see cref="Window"/>.
@@ -128,7 +128,7 @@ public class SystemMenu : Animatable
     /// Identifies the <see cref="Items"/> dependency property.
     /// </summary>
     public static readonly DependencyProperty ItemsProperty = DependencyProperty.Register(
-        "Items", typeof(MenuItemCollection), typeof(SystemMenu));
+        nameof(Items), typeof(MenuItemCollection), typeof(SystemMenu));
 
     /// <summary>
     /// Gets or sets the collection of menu items appended to the <see cref="Window"/>

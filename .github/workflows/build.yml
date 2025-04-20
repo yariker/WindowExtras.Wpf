@@ -21,7 +21,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         lfs: true
         fetch-depth: 0
@@ -30,10 +30,10 @@ jobs:
       run: ./get-version.ps1
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v2
+      uses: actions/setup-dotnet@v4
 
     - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1.1
+      uses: microsoft/setup-msbuild@v2
 
     - name: Restore
       run: dotnet restore
@@ -51,28 +51,28 @@ jobs:
       run: dotnet pack --no-build -c Release -p:Version=$env:BUILD_VERSION -o build
 
     - name: Archive
-      uses: actions/upload-artifact@v3.1.0
+      uses: actions/upload-artifact@v4
       with:
         path: build
         name: ${{ format('WindowExtras.Wpf_v{0}', env.BUILD_VERSION) }}
 
     - name: Setup NuGet
       if: ${{ github.event_name == 'Release' }}
-      uses: NuGet/setup-nuget@v1.0.6
+      uses: nuget/setup-nuget@v2
 
     - name: Publish
       if: ${{ github.event_name == 'Release' }}
       run: nuget push build\*.nupkg -source https://www.nuget.org -apikey $env:NUGET_API_KEY
       
     - name: Zip Demo App
-      uses: vimtor/action-zip@v1
+      uses: vimtor/action-zip@v1.2
       if: ${{ github.event_name == 'Release' }}
       with:
         files: build/demo/ LICENSE
         dest: DemoApp.zip
 
     - name: Attach Demo App
-      uses: svenstaro/upload-release-action@2.2.1
+      uses: svenstaro/upload-release-action@v2
       if: ${{ github.event_name == 'Release' }}
       with:
         repo_token: ${{ env.GITHUB_TOKEN }}
@@ -81,7 +81,7 @@ jobs:
         overwrite: true
         
     - name: Attach NuGet Package
-      uses: svenstaro/upload-release-action@2.2.1
+      uses: svenstaro/upload-release-action@v2
       if: ${{ github.event_name == 'Release' }}
       with:
         repo_token: ${{ env.GITHUB_TOKEN }}

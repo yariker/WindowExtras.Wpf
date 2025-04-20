@@ -11,13 +11,13 @@ namespace WindowExtras.Wpf;
 public static partial class WindowEx
 {
     private static readonly CommandBinding[] SystemCommandBindings =
-    {
+    [
         new(SystemCommands.CloseWindowCommand, OnCloseWindowExecute, OnCloseWindowCanExecute),
         new(SystemCommands.MaximizeWindowCommand, OnMaximizeWindowExecute, OnMaximizeWindowCanExecute),
         new(SystemCommands.MinimizeWindowCommand, OnMinimizeWindowExecute, OnMinimizeWindowCanExecute),
         new(SystemCommands.RestoreWindowCommand, OnRestoreWindowExecute, OnRestoreWindowCanExecute),
-        new(SystemCommands.ShowSystemMenuCommand, OnShowSystemMenuExecute),
-    };
+        new(SystemCommands.ShowSystemMenuCommand, OnShowSystemMenuExecute)
+    ];
 
     /// <summary>
     /// Identifies the EnableSystemCommands attached property.
@@ -178,9 +178,9 @@ public static partial class WindowEx
 
     private static Point GetMouseScreenPosition(Window window)
     {
-        GetCursorPos(out POINT p);
+        GetCursorPos(out var p);
         var transformMatrix = DpiHelper.GetTransformMatrix(window, TransformDirection.FromDevice);
-        return transformMatrix.Transform(new Point(p.x, p.y));
+        return transformMatrix.Transform(new Point(p.X, p.Y));
     }
 
     private static bool IsWindowStyleSet(Window window, WINDOW_STYLE flag)

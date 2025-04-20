@@ -13,16 +13,16 @@ internal sealed class WindowMessageTracer : IDisposable
     private static readonly Type MessageType = typeof(uint);
     private static readonly Dictionary<int, string> KnownMessages = new();
 
-    private static readonly HashSet<int> IgnoreMessages = new()
-    {
+    private static readonly HashSet<int> IgnoreMessages =
+    [
         (int)PInvoke.WM_MOUSEMOVE,
         (int)PInvoke.WM_MOUSELEAVE,
         (int)PInvoke.WM_NCMOUSEMOVE,
         (int)PInvoke.WM_NCMOUSELEAVE,
         (int)PInvoke.WM_NCHITTEST,
         (int)PInvoke.WM_CT_BOTTOM_FIELD_FIRST,
-        (int)PInvoke.WM_GETTEXT,
-    };
+        (int)PInvoke.WM_GETTEXT
+    ];
 
     private readonly StringBuilder _stringBuilder = new();
     private readonly HwndSource _hwndSource;

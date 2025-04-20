@@ -75,7 +75,7 @@ public record Screen
     public static unsafe Screen FromHwnd(nint hwnd)
     {
         var monitor = hwnd == 0
-            ? MonitorFromPoint(new POINT(), MONITOR_FROM_FLAGS.MONITOR_DEFAULTTOPRIMARY)
+            ? MonitorFromPoint(default, MONITOR_FROM_FLAGS.MONITOR_DEFAULTTOPRIMARY)
             : MonitorFromWindow((HWND)hwnd, MONITOR_FROM_FLAGS.MONITOR_DEFAULTTONEAREST);
 
         var monitorInfo = new MONITORINFOEXW { monitorInfo = { cbSize = (uint)Marshal.SizeOf<MONITORINFOEXW>() } };
